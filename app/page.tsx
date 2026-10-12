@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Bottle from "@/components/Bottle";
 import BestTabs from "@/components/BestTabs";
+import { posts } from "@/lib/content";
 import { categories, catBg, catBlurb, occasions, occBlurb, products } from "@/lib/products";
 export default function Home() {
   const hero = [products[0], products[12], products[4]];
@@ -45,6 +46,10 @@ export default function Home() {
       </section>
       <section className="mx-auto mt-20 grid max-w-7xl gap-5 px-5 md:grid-cols-3">
         {[["Chai Hour is the only perfume my whole office asked about.", "Neha, Pune"], ["Midnight Oud lasts all day on me, and it's under ₹5,000. Wild.", "Karan, Delhi"], ["The quiz picked Paper Moon. It was right.", "Sana, Hyderabad"]].map(([q, a]) => (<figure key={a} className="border-2 border-ink p-6 shadow-[6px_6px_0_#0b1020]"><blockquote className="display text-2xl leading-tight">“{q}”</blockquote><figcaption className="mt-4 text-sm text-ink/60">{a}</figcaption></figure>))}
+      </section>
+      <section className="mx-auto mt-20 max-w-7xl px-5">
+        <div className="mb-6 flex items-end justify-between"><h2 className="text-4xl md:text-5xl">From the journal</h2><Link href="/blog" className="font-semibold underline">All articles</Link></div>
+        <div className="grid gap-5 md:grid-cols-3">{posts.slice(0, 3).map((p) => <Link key={p.slug} href={`/blog/${p.slug}`} className="block border-2 border-ink transition-transform hover:-translate-y-1"><div className="aspect-[16/8] border-b-2 border-ink" style={{ background: p.tint }} /><div className="p-5"><p className="text-xs text-ink/60">{p.date}</p><h3 className="mt-1 text-2xl leading-tight">{p.title}</h3></div></Link>)}</div>
       </section>
     </>
   );

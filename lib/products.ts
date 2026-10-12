@@ -29,3 +29,14 @@ const rows: R[] = [
 export const products: Product[] = rows.map(([slug, name, category, gender, occ, line, price, sold, rating, reviews, tag, top, heart, base, desc, bg, liquid]) => ({ slug, name, category, gender, occasions: occ, line, price, mrp: Math.round((price * 1.25) / 100) * 100, sold, rating, reviews, tag, top, heart, base, desc, bg, liquid }));
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 export const off = (p: Product) => Math.round((1 - p.price / p.mrp) * 100);
+export const collections: { slug: string; title: string; desc: string; bg: string; test: (p: Product) => boolean }[] = [
+  { slug: "new-arrivals", title: "New arrivals", desc: "Fresh releases this season.", bg: "#9fe3d0", test: (p) => p.tag === "New" },
+  { slug: "bestsellers", title: "Bestsellers", desc: "The bottles people keep reordering.", bg: "#ffc65c", test: (p) => p.sold >= 450 },
+  { slug: "wedding-edit", title: "The wedding edit", desc: "Rich, festive scents for the season.", bg: "#ffb3d1", test: (p) => p.occasions.includes("Wedding") },
+  { slug: "office-picks", title: "Office picks", desc: "Clean, quiet and polite.", bg: "#a8c4ff", test: (p) => p.occasions.includes("Office") },
+  { slug: "date-night", title: "Date night", desc: "Close, warm and memorable.", bg: "#c9b8ff", test: (p) => p.occasions.includes("Date night") },
+  { slug: "under-3500", title: "Under ₹3,500", desc: "Easy-to-love scents at friendly prices.", bg: "#ffa28a", test: (p) => p.price < 3500 },
+];
+const rn = ["Aarav", "Meera", "Rohan", "Ishita", "Karan", "Sana", "Neha", "Vikram"];
+const rt = ["Lasts well past 6 hours and the dry down is lovely.", "Got compliments the first day I wore it. Packaging felt premium.", "Not too loud, works for office and evenings. Will reorder.", "Smells like the notes list says. Great value for the price."];
+export const reviewsFor = (p: Product) => [0, 1, 2].map((i) => ({ name: rn[(p.slug.length + i * 3) % 8], rating: i === 1 ? 4 : 5, text: rt[(p.slug.length + i) % 4], date: ["12 Sep 2026", "30 Aug 2026", "14 Aug 2026"][i] }));

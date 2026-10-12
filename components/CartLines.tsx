@@ -1,5 +1,5 @@
 "use client";
-import Bottle from "./Bottle";
+import ProductImage from "./ProductImage";
 import { useCart } from "./CartContext";
 import { getProduct, money, sizePrice } from "@/lib/products";
 export default function CartLines() {
@@ -8,7 +8,7 @@ export default function CartLines() {
     <ul className="space-y-4">
       {lines.map((l) => { const p = getProduct(l.slug)!; return (
         <li key={l.slug + l.size} className="flex gap-4 border-2 border-ink p-3">
-          <div className="h-24 w-20 shrink-0 border-2 border-ink p-1" style={{ background: p.bg }}><Bottle liquid={p.liquid} className="h-full w-full" /></div>
+          <div className="relative h-24 w-20 shrink-0 overflow-hidden border-2 border-ink" style={{ background: p.bg }}><ProductImage p={p} /></div>
           <div className="flex-1 text-sm">
             <div className="flex justify-between gap-2"><p className="display text-lg">{p.name}</p><p className="font-bold">{money(sizePrice(p, l.size) * l.qty)}</p></div>
             <p className="text-ink/60">{l.size} ml</p>

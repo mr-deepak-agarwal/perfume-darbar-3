@@ -1,16 +1,19 @@
 "use client";
 import Link from "next/link";
-import Bottle from "./Bottle";
+import ProductImage from "./ProductImage";
 import { useCart } from "./CartContext";
+import { useWishlist } from "./WishlistContext";
 import { Product, money, off } from "@/lib/products";
 export default function ProductCard({ p, className = "" }: { p: Product; className?: string }) {
   const { add } = useCart();
+  const { has, toggle } = useWishlist();
   return (
     <div className={className}>
-      <Link href={`/product/${p.slug}`} className="relative block aspect-square border-2 border-ink" style={{ background: p.bg }}>
-        <Bottle liquid={p.liquid} className="absolute inset-0 m-auto h-4/5" />
+      <div className="relative aspect-square overflow-hidden border-2 border-ink" style={{ background: p.bg }}>
+        <Link href={`/product/${p.slug}`} className="absolute inset-0" aria-label={p.name}><ProductImage p={p} /></Link>
         {p.tag && <span className="absolute left-3 top-3 border-2 border-ink bg-white px-2 py-0.5 text-xs font-bold">{p.tag}</span>}
-      </Link>
+        <button onClick={() => toggle(p.slug)} aria-label="Toggle wishlist" aria-pressed={has(p.slug)} className="absolute right-3 top-3 grid h-9 w-9 place-items-center border-2 border-ink bg-white text-lg">{has(p.slug) ? "♥" : "♡"}</button>
+      </div>
       <div className="mt-3 text-sm">
         <p className="text-xs font-semibold text-ink/60">{p.category} · {p.gender}</p>
         <Link href={`/product/${p.slug}`} className="display mt-0.5 block text-xl leading-tight">{p.name}</Link>
