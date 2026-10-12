@@ -1,47 +1,35 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
-import ProductImage from "@/components/ProductImage";
+import Bottle from "@/components/Bottle";
 import { useCart } from "@/components/CartContext";
-import { useWishlist } from "@/components/WishlistContext";
-import { Product, money } from "@/lib/products";
-type Review = { name: string; rating: number; text: string; date: string };
-export default function ProductView({ p, reviews }: { p: Product; reviews: Review[] }) {
+import { Product, money, sizePrice, sizes } from "@/lib/products";
+export default function ProductView({ p }: { p: Product }) {
   const { add } = useCart();
-  const { has, toggle } = useWishlist();
-  const [q, setQ] = useState(1);
-  const [added, setAdded] = useState(false);
-  const [tab, setTab] = useState("Description");
-  const [pin, setPin] = useState("");
-  const [eta, setEta] = useState("");
+  const [size, setSize] = useState<number>(50);
+  const [qty, setQty] = useState(1);
   return (
-    <>
-      <nav className="mb-6 text-sm text-ink/60"><Link href="/">Home</Link> / <Link href="/shop">Shop</Link> / <Link href={`/shop?b=${encodeURIComponent(p.brand)}`}>{p.brand}</Link> / {p.name}</nav>
-      <div className="grid gap-12 md:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-3xl bg-white"><ProductImage p={p} />{p.tag && <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1 text-xs text-white">{p.tag}</span>}</div>
-        <div>
-          <Link href={`/shop?b=${encodeURIComponent(p.brand)}`} className="text-sm text-ink/60 underline underline-offset-4">{p.brand}</Link>
-          <h1 className="mt-1 text-5xl">{p.name}</h1>
-          <p className="mt-3 text-sm">★ {p.rating} <span className="text-ink/50">({p.reviews} reviews)</span></p>
-          <p className="mt-5 text-3xl">{money(p.price)} <span className="text-base text-ink/50">/ {p.size}</span></p>
-          <p className="mt-1 text-xs text-ink/50">Inclusive of all taxes. {p.category} · {p.family === "Set" ? "Gift set" : `${p.family} · ${p.conc}`}</p>
-          <div className="mt-7 flex gap-3">
-            <div className="flex items-center rounded-full border border-line bg-white"><button aria-label="Decrease" className="px-4 py-3" onClick={() => setQ(Math.max(1, q - 1))}>−</button><span className="w-6 text-center text-sm">{q}</span><button aria-label="Increase" className="px-4 py-3" onClick={() => setQ(q + 1)}>+</button></div>
-            <button className="btn flex-1" onClick={() => { add(p.slug, q); setAdded(true); }}>Add to cart</button>
-            <button onClick={() => toggle(p.slug)} aria-pressed={has(p.slug)} aria-label="Toggle wishlist" className="grid h-12 w-12 place-items-center rounded-full border border-line bg-white text-xl">{has(p.slug) ? "♥" : "♡"}</button>
-          </div>
-          {added && <p className="mt-3 text-sm text-plum">Added to your cart. <Link href="/cart" className="font-semibold underline">View cart</Link></p>}
-          <div className="mt-6 flex gap-2"><input className="field !w-40" placeholder="PIN code" inputMode="numeric" aria-label="PIN code" value={pin} onChange={(e) => setPin(e.target.value)} /><button className="btn btn-ghost !py-2" onClick={() => setEta(pin.length === 6 ? "Delivery in 3 to 6 working days. Cash on delivery available." : "Enter a valid 6-digit PIN code.")}>Check delivery</button></div>
-          {eta && <p className="mt-2 text-sm text-ink/70">{eta}</p>}
-          <div className="mt-8 divide-y divide-line rounded-2xl bg-white">{[["Top notes", p.top], ["Heart notes", p.heart], ["Base notes", p.base]].map(([k, v]) => <div key={k} className="flex justify-between gap-4 px-5 py-4 text-sm"><span className="font-semibold">{k}</span><span className="text-right text-ink/70">{v}</span></div>)}</div>
+    <div className="grid border-b-2 border-ink md:grid-cols-2">
+      <div className="relative min-h-[420px] border-ink md:sticky md:top-[88px] md:h-[calc(100vh-88px)] md:border-r-2" style={{ background: p.bg }}>
+        <Bottle liquid={p.liquid} className="absolute inset-0 m-auto h-3/4" />
+        {p.tag && <span className="absolute left-5 top-5 border-2 border-ink bg-white px-3 py-1 text-sm font-bold">{p.tag}</span>}
+      </div>
+      <div className="p-6 md:p-12">
+        <p className="font-semibold">{p.category} · {p.gender} · {p.line}</p>
+        <h1 className="mt-2 text-6xl md:text-7xl">{p.name}</h1>
+        <p className="mt-3 text-sm">★ {p.rating} · {p.reviews} reviews</p>
+        <p className="mt-6 max-w-md text-lg">{p.desc}</p><p className="mt-3 text-sm"><b>Best for:</b> {p.occasions.join(", ")}</p>
+        <p className="mt-8 text-sm font-bold">Choose size</p>
+        <div className="mt-2 flex gap-3">{sizes.map((s) => <button key={s} onClick={() => setSize(s)} className="chip text-left" data-on={size === s}>{s} ml<br /><span className="text-xs font-normal">{money(sizePrice(p, s))}</span></button>)}</div>
+        <div className="mt-6 flex gap-3">
+          <div className="flex items-center border-2 border-ink"><button aria-label="Decrease" className="px-4 py-3" onClick={() => setQty(Math.max(1, qty - 1))}>−</button><span className="w-6 text-center">{qty}</span><button aria-label="Increase" className="px-4 py-3" onClick={() => setQty(qty + 1)}>+</button></div>
+          <button className="btn flex-1" onClick={() => add(p.slug, size, qty)}>Add to bag · {money(sizePrice(p, size) * qty)}</button>
+        </div>
+        <p className="mt-3 text-sm text-ink/60">Ships in 24 hours. 30-day returns on unused bottles.</p>
+        <div className="mt-10 border-t-2 border-ink">
+          {[["Scent notes", `Top: ${p.top}. Heart: ${p.heart}. Base: ${p.base}.`], ["How long it lasts", "6 to 8 hours on skin at 18% oil concentration."], ["Shipping and returns", "Free above ₹1,999. Delivered in 3 to 6 working days across India."]].map(([t, d]) => (
+            <details key={t} className="group border-b-2 border-ink py-4"><summary className="display flex cursor-pointer list-none justify-between text-xl">{t}<span className="group-open:rotate-45 transition-transform">+</span></summary><p className="mt-3 max-w-md text-sm">{d}</p></details>))}
         </div>
       </div>
-      <div className="mt-16 border-b border-line">{["Description", "Reviews", "Shipping"].map((t) => <button key={t} onClick={() => setTab(t)} className={`mr-8 pb-3 text-sm font-semibold ${tab === t ? "border-b-2 border-ink" : "text-ink/50"}`}>{t}{t === "Reviews" ? ` (${p.reviews})` : ""}</button>)}</div>
-      <div className="mt-6 max-w-2xl text-ink/75 leading-relaxed">
-        {tab === "Description" && <p>{p.desc} Wear it on pulse points after moisturising for the longest wear. Patch-test before first use.</p>}
-        {tab === "Reviews" && <ul className="space-y-5">{reviews.map((r, i) => <li key={i} className="rounded-2xl bg-white p-5"><p className="text-sm">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)} <span className="ml-2 font-semibold">{r.name}</span> <span className="text-ink/50">· {r.date}</span></p><p className="mt-2">{r.text}</p></li>)}</ul>}
-        {tab === "Shipping" && <ul className="list-disc space-y-2 pl-5"><li>Free shipping above ₹3,999, otherwise ₹149.</li><li>Delivery in 3 to 6 working days across India.</li><li>30-day returns on unused, sealed bottles. <Link href="/help/shipping-returns" className="underline">Full policy</Link></li></ul>}
-      </div>
-    </>
+    </div>
   );
 }

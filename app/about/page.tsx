@@ -1,12 +1,5 @@
 import Link from "next/link";
 export const metadata = { title: "Our story | Perfume Darbar" };
 export default function About() {
-  return (
-    <div className="mx-auto max-w-2xl px-5 py-20">
-      <h1 className="text-5xl">Perfume made slowly, on purpose</h1>
-      <p className="mt-6 text-lg leading-relaxed text-ink/75">Perfume Darbar started in a small Jaipur studio with one idea: Indian raw materials deserve better than being exported and bottled elsewhere. We work with growers of rose, jasmine and saffron, blend in batches of 500 bottles, and age every batch for six weeks before it ships.</p>
-      <p className="mt-5 text-lg leading-relaxed text-ink/75">No celebrity names, no filler. Just clear notes, honest descriptions and perfumes that last on skin.</p>
-      <Link href="/shop" className="btn mt-8">Shop all perfumes</Link>
-    </div>
-  );
+  return (<div className="mx-auto max-w-3xl px-5 py-20"><h1 className="text-6xl md:text-7xl">Perfume shouldn't need a dress code.</h1><p className="mt-8 text-xl leading-relaxed">Perfume Darbar began with a simple annoyance: good perfume was either expensive or boring. We make everyday scents named for the moment you'd wear them, priced under ₹5,500, and blended in small batches in India.</p><p className="mt-5 text-xl leading-relaxed">Scents are sorted by family and occasion, so you can shop by how you want to feel. Every bottle comes in 30, 50 and 100 ml, so you can try before you commit.</p><Link href="/shop" className="btn mt-8">Shop all scents</Link></div>);
 }

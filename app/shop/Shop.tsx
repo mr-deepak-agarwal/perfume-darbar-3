@@ -1,41 +1,46 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import { products, brands, families, concs } from "@/lib/products";
-const cats = ["All", "Women", "Men", "Unisex", "Gift Set"];
-const chip = (on: boolean) => `rounded-full border px-3 py-1.5 ${on ? "border-ink bg-ink text-white" : "border-line bg-white"}`;
-export default function Shop({ init }: { init: { c?: string; b?: string; q?: string; f?: string; k?: string } }) {
-  const [cat, setCat] = useState(init.c || "All");
-  const [brand, setBrand] = useState(init.b || "");
-  const [q, setQ] = useState(init.q || "");
-  const [fam, setFam] = useState(init.f || "");
-  const [conc, setConc] = useState(init.k || "");
-  const [max, setMax] = useState(15000);
-  const [sort, setSort] = useState("featured");
-  const [n, setN] = useState(9);
-  const ql = q.trim().toLowerCase();
-  const list = products.filter((p) => (cat === "All" || p.category === cat) && (!brand || p.brand === brand) && (!fam || p.family === fam) && (!conc || p.conc === conc) && p.price <= max && (!ql || `${p.name} ${p.brand} ${p.top} ${p.heart} ${p.base} ${p.family}`.toLowerCase().includes(ql)))
-    .sort((a, b) => sort === "low" ? a.price - b.price : sort === "high" ? b.price - a.price : sort === "rating" ? b.rating - a.rating : 0);
-  const reset = () => { setCat("All"); setBrand(""); setQ(""); setFam(""); setConc(""); setMax(15000); };
+import Bottle from "@/components/Bottle";
+import { products, categories, catBg, occasions } from "@/lib/products";
+const bands: [string, string, (n: number) => boolean][] = [["", "Price", () => true], ["u3", "Under ₹3,000", (n) => n < 3000], ["3to4", "₹3,000 to ₹4,000", (n) => n >= 3000 && n <= 4000], ["4p", "Above ₹4,000", (n) => n > 4000]];
+const quick = ["Bestseller", "New", "Limited", "Under ₹3,500"];
+const sorts = [["pop", "Popularity"], ["low", "Price: low to high"], ["high", "Price: high to low"], ["rating", "Top rated"]];
+function Sel({ v, set, label, opts }: { v: string; set: (s: string) => void; label: string; opts: string[] }) {
+  return <select aria-label={label} value={v} onChange={(e) => set(e.target.value)} data-on={!!v} className="chip shrink-0 cursor-pointer"><option value="">{label}</option>{opts.map((o) => <option key={o}>{o}</option>)}</select>;
+}
+export default function Shop({ init }: { init: { c?: string; o?: string; g?: string; q?: string } }) {
+  const [cat, setCat] = useState(init.c || "");
+  const [occ, setOcc] = useState(init.o || "");
+  const [gen, setGen] = useState(init.g || "");
+  const [band, setBand] = useState("");
+  const [qk, setQk] = useState("");
+  const [sort, setSort] = useState("pop");
+  const [sheet, setSheet] = useState<"" | "sort" | "filter">("");
+  const ql = (init.q || "").toLowerCase();
+  const inBand = bands.find((b) => b[0] === band)![2];
+  const list = products.filter((p) => (!cat || p.category === cat) && (!occ || p.occasions.includes(occ)) && (!gen || p.gender === gen) && inBand(p.price) && (!qk || (qk === "Under ₹3,500" ? p.price < 3500 : p.tag === qk)) && (!ql || `${p.name} ${p.category} ${p.top} ${p.heart} ${p.base}`.toLowerCase().includes(ql)))
+    .sort((a, b) => sort === "low" ? a.price - b.price : sort === "high" ? b.price - a.price : sort === "rating" ? b.rating - a.rating : b.sold - a.sold);
+  const reset = () => { setCat(""); setOcc(""); setGen(""); setBand(""); setQk(""); };
+  const filters = <><Sel v={cat} set={setCat} label="Fragrance family" opts={categories} /><Sel v={occ} set={setOcc} label="Occasion" opts={occasions} /><Sel v={gen} set={setGen} label="Gender" opts={["Men", "Women", "Unisex"]} />
+    <select aria-label="Price" value={band} onChange={(e) => setBand(e.target.value)} data-on={!!band} className="chip shrink-0 cursor-pointer">{bands.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></>;
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12">
-      <h1 className="text-5xl">{q ? `Results for "${q}"` : cat === "All" ? "All perfumes" : `${cat === "Gift Set" ? "Gift sets" : cat + "'s perfumes"}`}</h1>
+    <div className="mx-auto max-w-7xl px-5 pb-24 pt-10 md:pb-12">
+      <h1 className="text-5xl md:text-7xl">{ql ? `Results for "${init.q}"` : cat ? `${cat} perfumes` : occ ? `Perfumes for ${occ.toLowerCase()}` : "All scents"}</h1>
       <p className="mt-2 text-ink/60">{list.length} products</p>
-      <div className="mt-8 grid gap-10 md:grid-cols-[230px_1fr]">
-        <aside className="space-y-7 text-sm">
-          <input className="field" placeholder="Search" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} />
-          <div><p className="mb-2 font-semibold">Category</p><div className="flex flex-wrap gap-2">{cats.map((c) => <button key={c} onClick={() => setCat(c)} className={chip(cat === c)}>{c}</button>)}</div></div>
-          <div><label htmlFor="br" className="mb-2 block font-semibold">Brand</label><select id="br" className="field" value={brand} onChange={(e) => setBrand(e.target.value)}><option value="">All brands</option>{brands.map((b) => <option key={b}>{b}</option>)}</select></div>
-          <div><p className="mb-2 font-semibold">Type</p><div className="flex flex-wrap gap-2">{concs.map((c) => <button key={c} onClick={() => setConc(conc === c ? "" : c)} className={chip(conc === c)}>{c}</button>)}</div></div>
-          <div><p className="mb-2 font-semibold">Scent family</p><div className="flex flex-wrap gap-2">{families.map((f) => <button key={f} onClick={() => setFam(fam === f ? "" : f)} className={chip(fam === f)}>{f}</button>)}</div></div>
-          <div><label htmlFor="pr" className="mb-2 block font-semibold">Max price: ₹{max.toLocaleString("en-IN")}</label><input id="pr" type="range" min={1500} max={15000} step={500} value={max} onChange={(e) => setMax(+e.target.value)} className="w-full accent-plum" /></div>
-          <div><label htmlFor="so" className="mb-2 block font-semibold">Sort by</label><select id="so" className="field" value={sort} onChange={(e) => setSort(e.target.value)}><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="rating">Top rated</option></select></div>
-          <button className="underline underline-offset-4" onClick={reset}>Clear all filters</button>
-        </aside>
-        <div>{list.length ? <><div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3">{list.slice(0, n).map((p) => <ProductCard key={p.slug} p={p} />)}</div>
-          {n < list.length && <div className="mt-12 text-center"><button className="btn btn-ghost" onClick={() => setN(n + 9)}>Load more ({list.length - n} left)</button></div>}</>
-          : <div className="rounded-2xl bg-white p-10 text-center"><p className="serif text-2xl">No perfumes match these filters</p><button className="btn mt-5" onClick={reset}>Clear filters</button></div>}</div>
+      <div className="noscroll mt-6 flex gap-5 overflow-x-auto pb-2">
+        <button onClick={() => setCat("")} className="w-20 shrink-0 text-center"><div className={`mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-ink bg-white ${!cat ? "ring-4 ring-blue" : ""}`}><span className="display text-lg">All</span></div><p className="mt-2 text-xs font-semibold">All</p></button>
+        {categories.map((c) => <button key={c} onClick={() => setCat(cat === c ? "" : c)} className="w-20 shrink-0 text-center"><div className={`mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-ink ${cat === c ? "ring-4 ring-blue" : ""}`} style={{ background: catBg[c] }}><Bottle liquid={products.find((p) => p.category === c)!.liquid} className="h-3/4" /></div><p className="mt-2 text-xs font-semibold">{c}</p></button>)}
       </div>
+      <div className="mt-4 hidden items-center justify-between gap-3 md:flex"><div className="flex gap-2">{filters}</div><label className="flex items-center gap-2 text-sm font-semibold">Sort<select className="field !w-auto !py-2" value={sort} onChange={(e) => setSort(e.target.value)}>{sorts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label></div>
+      <div className="noscroll mt-4 flex gap-2 overflow-x-auto">{quick.map((q) => <button key={q} className="chip shrink-0" data-on={qk === q} onClick={() => setQk(qk === q ? "" : q)}>{q}</button>)}</div>
+      {list.length ? <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-12 lg:grid-cols-4">{list.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
+        : <div className="mt-10 border-2 border-ink p-10 text-center"><p className="display text-3xl">No perfumes match</p><button className="btn mt-5" onClick={reset}>Clear filters</button><Link href="/quiz" className="ml-3 font-semibold underline">Take the quiz</Link></div>}
+      <div className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-2 border-t-2 border-ink bg-white text-sm font-bold md:hidden"><button className="border-r-2 border-ink py-4" onClick={() => setSheet("sort")}>Sort by</button><button className="py-4" onClick={() => setSheet("filter")}>Filter{cat || occ || gen || band ? " (on)" : ""}</button></div>
+      {sheet && <><div className="fixed inset-0 z-40 bg-ink/50 md:hidden" onClick={() => setSheet("")} />
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-ink bg-white p-5 md:hidden"><div className="mb-4 flex justify-between"><h2 className="text-2xl">{sheet === "sort" ? "Sort by" : "Filter"}</h2><button className="font-semibold underline" onClick={() => setSheet("")}>Done</button></div>
+          {sheet === "sort" ? <div className="flex flex-col gap-2">{sorts.map(([v, l]) => <button key={v} className="chip text-left" data-on={sort === v} onClick={() => { setSort(v); setSheet(""); }}>{l}</button>)}</div> : <div className="flex flex-col gap-3 [&_select]:w-full">{filters}<button className="btn btn-alt" onClick={reset}>Clear filters</button></div>}</div></>}
     </div>
   );
 }
