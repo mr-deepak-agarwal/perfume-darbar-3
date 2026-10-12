@@ -4,39 +4,26 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
-import CartLines from "./CartLines";
-import { money } from "@/lib/products";
-const links = [["Shop", "/shop"], ["Collections", "/collections"], ["Find my scent", "/quiz"], ["Journal", "/blog"]];
+const nav = [["Women", "/shop?g=Women"], ["Men", "/shop?g=Men"], ["Unisex", "/shop?g=Unisex"], ["Attars", "/collections/attars"], ["Gift sets", "/collections/gift-sets"], ["Brands", "/brands"], ["Find my scent", "/quiz"], ["Journal", "/blog"]];
 export default function Header() {
-  const { count, open, setOpen, lines, subtotal } = useCart();
+  const { count } = useCart();
   const { ids } = useWishlist();
   const r = useRouter();
-  const [menu, setMenu] = useState(false);
+  const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
-  const search = (e: React.FormEvent) => { e.preventDefault(); setMenu(false); r.push(`/shop?q=${encodeURIComponent(q)}`); };
   return (
-    <>
-      <div className="border-b-2 border-ink bg-lemon px-4 py-2 text-center text-sm font-semibold">Free shipping above ₹1,999. Try the 5-scent discovery set for ₹999.</div>
-      <header className="sticky top-0 z-30 border-b-2 border-ink bg-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5 py-4">
-          <nav className="hidden gap-6 text-sm font-semibold md:flex">{links.map(([l, h]) => <Link key={h} href={h} className="hover:text-blue">{l}</Link>)}</nav>
-          <button className="text-left text-sm font-semibold md:hidden" onClick={() => setMenu(!menu)}>{menu ? "Close" : "Menu"}</button>
-          <Link href="/" className="display text-xl sm:text-3xl">perfume darbar</Link>
-          <div className="flex items-center justify-end gap-4 text-sm font-semibold">
-            <form onSubmit={search} className="hidden xl:block"><input className="field !w-44 !py-1.5" placeholder="Search" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>
-            <Link href="/wishlist" className="hover:text-blue" aria-label="Wishlist">♡ {ids.length}</Link>
-            <Link href="/account" className="hidden hover:text-blue sm:block">Account</Link>
-            <button onClick={() => setOpen(true)} className="border-2 border-ink bg-ink px-3 py-1.5 text-white">Bag {count}</button>
-          </div>
-        </div>
-        {menu && <div className="flex flex-col gap-3 border-t-2 border-ink px-5 py-4 font-semibold md:hidden"><form onSubmit={search}><input className="field" placeholder="Search perfumes" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>{[...links, ["Our story", "/about"], ["Account", "/account"], ["Track order", "/track-order"]].map(([l, h]) => <Link key={h} href={h} onClick={() => setMenu(false)}>{l}</Link>)}</div>}
-      </header>
-      {open && <div className="fixed inset-0 z-40 bg-ink/50" onClick={() => setOpen(false)} />}
-      <aside aria-label="Shopping bag" className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l-2 border-ink bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between border-b-2 border-ink p-5"><h2 className="text-3xl">Your bag</h2><button onClick={() => setOpen(false)} className="font-semibold underline">Close</button></div>
-        <div className="flex-1 overflow-y-auto p-5">{lines.length ? <CartLines /> : <p className="text-ink/60">Your bag is empty. <Link href="/shop" onClick={() => setOpen(false)} className="font-semibold underline">Browse scents</Link></p>}</div>
-        {lines.length > 0 && <div className="space-y-3 border-t-2 border-ink p-5"><div className="flex justify-between font-bold"><span>Subtotal</span><span>{money(subtotal)}</span></div><Link href="/checkout" onClick={() => setOpen(false)} className="btn w-full">Checkout</Link><Link href="/cart" onClick={() => setOpen(false)} className="btn btn-alt w-full">View full bag</Link></div>}
-      </aside>
-    </>
+    <header className="sticky top-0 z-40 border-b border-line bg-mist/95 backdrop-blur">
+      <div className="bg-ink px-4 py-2 text-center text-xs text-white">Free shipping above ₹3,999. Free sample with every order.</div>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+        <button className="text-sm md:hidden" onClick={() => setOpen(!open)}>{open ? "Close" : "Menu"}</button>
+        <Link href="/" className="serif text-xl tracking-wide sm:text-2xl">Perfume Darbar</Link>
+        <form className="hidden flex-1 max-w-xs md:block" onSubmit={(e) => { e.preventDefault(); r.push(`/shop?q=${encodeURIComponent(q)}`); }}><input className="field !rounded-full !py-2" placeholder="Search perfumes, brands, notes" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>
+        <div className="flex items-center gap-4 text-sm"><Link href="/account" className="hidden sm:block hover:text-amber">Account</Link><Link href="/wishlist" className="hover:text-amber">♡ {ids.length}</Link><Link href="/cart" className="hover:text-amber">Cart ({count})</Link></div>
+      </div>
+      <nav className="mx-auto hidden max-w-6xl justify-center gap-8 px-5 pb-3 text-sm md:flex">{nav.map(([l, h]) => <Link key={h} href={h} className="hover:text-amber">{l}</Link>)}</nav>
+      {open && <div className="flex flex-col gap-3 border-t border-line px-5 py-4 md:hidden">
+        <form onSubmit={(e) => { e.preventDefault(); setOpen(false); r.push(`/shop?q=${encodeURIComponent(q)}`); }}><input className="field" placeholder="Search" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>
+        {[...nav, ["Account", "/account"], ["Track order", "/track-order"]].map(([l, h]) => <Link key={h} href={h} onClick={() => setOpen(false)}>{l}</Link>)}</div>}
+    </header>
   );
 }

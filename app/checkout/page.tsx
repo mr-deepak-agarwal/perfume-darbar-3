@@ -1,38 +1,36 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 import { useCart } from "@/components/CartContext";
-import { getProduct, money, sizePrice } from "@/lib/products";
-function In({ l, v, set, ...r }: { l: string; v: string; set: (s: string) => void } & React.InputHTMLAttributes<HTMLInputElement>) {
-  return <label className="block text-sm"><span className="mb-1 block font-bold">{l}</span><input required className="field" value={v} onChange={(e) => set(e.target.value)} {...r} /></label>;
-}
-const steps = ["Details", "Delivery", "Payment"];
+import { getProduct, money } from "@/lib/products";
+function F({ l, ...r }: { l: string } & React.InputHTMLAttributes<HTMLInputElement>) { return <label className="block text-sm"><span className="mb-1 block font-semibold">{l}</span><input required className="field" {...r} /></label>; }
 export default function Checkout() {
   const { lines, subtotal, clear } = useCart();
   const router = useRouter();
-  const [step, setStep] = useState(0);
-  const [f, setF] = useState({ email: "", phone: "", name: "", address: "", city: "", pin: "", ship: "std", pay: "upi" });
-  const s = (k: string) => (v: string) => setF((o) => ({ ...o, [k]: v }));
-  const ship = f.ship === "exp" ? 199 : subtotal >= 1999 ? 0 : 99;
-  if (!lines.length) return <div className="mx-auto max-w-xl px-5 py-24 text-center"><h1 className="text-6xl">Nothing to check out</h1><Link href="/shop" className="btn mt-8">Shop all scents</Link></div>;
-  const submit = (e: React.FormEvent) => { e.preventDefault(); if (step < 2) return setStep(step + 1); const id = "PD" + Math.floor(100000 + Math.random() * 900000); clear(); router.push(`/checkout/success?order=${id}`); };
+  const [pay, setPay] = useState("upi");
+  const ship = subtotal >= 3999 ? 0 : 149;
+  if (!lines.length) return <div className="mx-auto max-w-xl px-5 py-24 text-center"><h1 className="text-4xl">Nothing to check out</h1><Link href="/shop" className="btn mt-6">Shop all perfumes</Link></div>;
+  const submit = (e: React.FormEvent) => { e.preventDefault(); const id = "PD" + Math.floor(100000 + Math.random() * 900000); clear(); router.push(`/checkout/success?order=${id}`); };
   return (
     <form onSubmit={submit} className="mx-auto max-w-6xl px-5 py-12">
-      <h1 className="text-6xl">Checkout</h1>
-      <ol className="mt-6 flex gap-2">{steps.map((t, i) => <li key={t} className="flex-1"><div className={`h-2 border-2 border-ink ${i <= step ? "bg-blue" : "bg-white"}`} /><p className={`mt-1 text-sm ${i === step ? "font-bold" : "text-ink/50"}`}>{t}</p></li>)}</ol>
-      <div className="mt-8 grid gap-10 md:grid-cols-[1fr_340px]">
-        <div className="space-y-4">
-          {step === 0 && <><In l="Email" type="email" v={f.email} set={s("email")} /><In l="Phone" type="tel" v={f.phone} set={s("phone")} /><In l="Full name" v={f.name} set={s("name")} /></>}
-          {step === 1 && <><In l="Address" v={f.address} set={s("address")} /><div className="grid grid-cols-2 gap-4"><In l="City" v={f.city} set={s("city")} /><In l="PIN code" inputMode="numeric" v={f.pin} set={s("pin")} /></div>
-            <p className="pt-2 text-sm font-bold">Delivery speed</p>{[["std", "Standard, 3 to 6 days", subtotal >= 1999 ? "Free" : money(99)], ["exp", "Express, 1 to 2 days", money(199)]].map(([v, l, pr]) => <label key={v} className={`flex cursor-pointer justify-between border-2 border-ink p-4 text-sm ${f.ship === v ? "bg-lemon" : ""}`}><span><input type="radio" className="mr-3 accent-blue" checked={f.ship === v} onChange={() => s("ship")(v)} />{l}</span><b>{pr}</b></label>)}</>}
-          {step === 2 && <><p className="text-sm font-bold">Payment method</p>{[["upi", "UPI"], ["card", "Card"], ["cod", "Cash on delivery"]].map(([v, l]) => <label key={v} className={`flex cursor-pointer items-center border-2 border-ink p-4 text-sm ${f.pay === v ? "bg-lemon" : ""}`}><input type="radio" className="mr-3 accent-blue" checked={f.pay === v} onChange={() => s("pay")(v)} />{l}</label>)}
-            {f.pay === "upi" && <input required className="field" placeholder="name@bank" aria-label="UPI ID" />}{f.pay === "card" && <div className="grid grid-cols-2 gap-4"><input required className="field col-span-2" placeholder="Card number (demo only)" aria-label="Card number" /><input required className="field" placeholder="MM/YY" aria-label="Expiry" /><input required className="field" placeholder="CVV" aria-label="CVV" /></div>}</>}
-          <div className="flex gap-3 pt-4">{step > 0 && <button type="button" className="btn btn-alt" onClick={() => setStep(step - 1)}>Back</button>}<button className="btn flex-1">{step < 2 ? `Continue to ${steps[step + 1].toLowerCase()}` : `Place order · ${money(subtotal + ship)}`}</button></div>
+      <h1 className="text-5xl">Checkout</h1>
+      <div className="mt-8 grid gap-10 md:grid-cols-[1fr_360px]">
+        <div className="space-y-10">
+          <section><h2 className="mb-4 text-2xl">Contact</h2><div className="grid gap-4 sm:grid-cols-2"><F l="Email" type="email" /><F l="Phone" type="tel" /></div></section>
+          <section><h2 className="mb-4 text-2xl">Delivery address</h2><div className="grid gap-4 sm:grid-cols-2"><F l="First name" /><F l="Last name" /><div className="sm:col-span-2"><F l="Address" /></div><F l="City" /><F l="State" /><F l="PIN code" inputMode="numeric" /><F l="Country" defaultValue="India" /></div></section>
+          <section><h2 className="mb-4 text-2xl">Payment</h2>
+            <div className="space-y-3">{[["upi", "UPI"], ["card", "Credit or debit card"], ["cod", "Cash on delivery"]].map(([v, l]) => <label key={v} className={`flex cursor-pointer items-center gap-3 rounded-xl border bg-white p-4 text-sm ${pay === v ? "border-ink" : "border-line"}`}><input type="radio" name="pay" checked={pay === v} onChange={() => setPay(v)} className="accent-plum" />{l}</label>)}</div>
+            {pay === "card" && <div className="mt-4 grid gap-4 sm:grid-cols-2"><div className="sm:col-span-2"><F l="Card number" inputMode="numeric" placeholder="Demo only" /></div><F l="Expiry" placeholder="MM/YY" /><F l="CVV" /></div>}
+            {pay === "upi" && <div className="mt-4"><F l="UPI ID" placeholder="name@bank" /></div>}
+          </section>
         </div>
-        <aside className="h-fit border-2 border-ink p-6 shadow-[6px_6px_0_#0b1020]"><h2 className="text-2xl">Order summary</h2>
-          <ul className="mt-4 space-y-2 text-sm">{lines.map((l) => { const p = getProduct(l.slug)!; return <li key={l.slug + l.size} className="flex justify-between gap-3"><span>{p.name}, {l.size} ml × {l.qty}</span><span>{money(sizePrice(p, l.size) * l.qty)}</span></li>; })}</ul>
-          <div className="mt-4 space-y-1 border-t-2 border-ink pt-3 text-sm"><div className="flex justify-between"><span>Shipping</span><span>{ship ? money(ship) : "Free"}</span></div><div className="flex justify-between text-lg font-bold"><span>Total</span><span>{money(subtotal + ship)}</span></div></div></aside>
+        <aside className="h-fit rounded-2xl bg-white p-6">
+          <h2 className="text-2xl">Your order</h2>
+          <ul className="mt-4 space-y-3 text-sm">{lines.map((l) => { const p = getProduct(l.slug)!; return <li key={l.slug} className="flex justify-between gap-3"><span>{p.name} × {l.qty}</span><span>{money(p.price * l.qty)}</span></li>; })}</ul>
+          <dl className="mt-5 space-y-2 border-t border-line pt-4 text-sm"><div className="flex justify-between"><dt>Subtotal</dt><dd>{money(subtotal)}</dd></div><div className="flex justify-between"><dt>Shipping</dt><dd>{ship ? money(ship) : "Free"}</dd></div><div className="flex justify-between pt-2 text-base font-semibold"><dt>Total</dt><dd>{money(subtotal + ship)}</dd></div></dl>
+          <button className="btn mt-6 w-full">{pay === "cod" ? "Place order" : `Pay ${money(subtotal + ship)}`}</button>
+        </aside>
       </div>
     </form>
   );

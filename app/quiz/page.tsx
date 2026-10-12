@@ -13,14 +13,14 @@ export default function Quiz() {
   const [a, setA] = useState<string[]>([]);
   const done = a.length === qs.length;
   const top = done ? Object.entries(a.reduce<Record<string, number>>((m, x) => ({ ...m, [x]: (m[x] || 0) + 1 }), {})).sort((x, y) => y[1] - x[1])[0][0] : "";
-  const match = products.filter((p) => p.category === top).sort((x, y) => y.rating - x.rating);
+  const match = products.filter((p) => p.scent === top).sort((x, y) => y.rating - x.rating).slice(0, 4);
   return (
-    <div className="mx-auto max-w-3xl px-5 py-14">
-      {!done ? (<><p className="font-semibold">Question {i + 1} of {qs.length}</p><h1 className="mt-2 text-6xl">{qs[i].q}</h1>
-        <div className="mt-8 grid gap-3 sm:grid-cols-2">{qs[i].o.map(([l, m]) => <button key={l} className="btn btn-alt !justify-start !py-5 text-left text-lg" onClick={() => { setA([...a, m]); setI(i + 1); }}>{l}</button>)}</div></>)
-      : (<><h1 className="text-6xl">Your match: {top}.</h1><p className="mt-3">Here are your matches, best fit first.</p>
-        <div className="mt-8 grid grid-cols-2 gap-5">{match.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
-        <button className="btn btn-alt mt-10" onClick={() => { setA([]); setI(0); }}>Retake quiz</button> <Link href="/shop" className="ml-3 font-semibold underline">Browse everything</Link></>)}
+    <div className="mx-auto max-w-4xl px-5 py-14">
+      {!done ? (<><p className="text-sm text-ink/60">Question {i + 1} of {qs.length}</p><h1 className="mt-2 text-5xl">{qs[i].q}</h1>
+        <div className="mt-8 grid gap-3 sm:grid-cols-2">{qs[i].o.map(([l, m]) => <button key={l} className="rounded-2xl border border-line bg-white px-6 py-5 text-left text-lg hover:border-ink" onClick={() => { setA([...a, m]); setI(i + 1); }}>{l}</button>)}</div></>)
+      : (<><h1 className="text-5xl">Your match: {top}</h1><p className="mt-3 text-ink/70">Here are our best-rated {top.toLowerCase()} perfumes.</p>
+        <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">{match.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
+        <div className="mt-10 flex items-center gap-4"><button className="btn btn-ghost" onClick={() => { setA([]); setI(0); }}>Retake quiz</button><Link href={`/shop?s=${encodeURIComponent(top)}`} className="text-sm underline underline-offset-4">See all {top} perfumes</Link></div></>)}
     </div>
   );
 }

@@ -1,56 +1,43 @@
 import Link from "next/link";
 import Bottle from "@/components/Bottle";
+import Photo from "@/components/Photo";
+import ProductCard from "@/components/ProductCard";
 import BestTabs from "@/components/BestTabs";
+import ScentIcon from "@/components/ScentIcon";
+import { products, brands, collections, scents, scentBlurb, occasions, occBlurb } from "@/lib/products";
 import { posts } from "@/lib/content";
-import { categories, catBg, catBlurb, occasions, occBlurb, products } from "@/lib/products";
+const col = (s: string) => products.filter(collections.find((c) => c.slug === s)!.test);
+const tiles = [["Women", "/shop?g=Women", "women", "#f2c6d4"], ["Men", "/shop?g=Men", "men", "#cfd8f0"], ["Unisex", "/shop?g=Unisex", "unisex", "#d9ead3"], ["Attars", "/collections/attars", "attars", "#f3e2b8"], ["Gift sets", "/collections/gift-sets", "gifts", "#e2d3ee"]];
+const occBg = ["#d9ead3", "#cfd8f0", "#f2c6d4", "#f3e2b8", "#e2d3ee"];
+const Head = ({ t, href }: { t: string; href?: string }) => <div className="mb-8 flex items-end justify-between"><h2 className="text-4xl">{t}</h2>{href && <Link href={href} className="text-sm underline underline-offset-4">View all</Link>}</div>;
 export default function Home() {
-  const hero = [products[0], products[12], products[4]];
-  const liquid = (c: string) => products.find((p) => p.category === c)!.liquid;
-  const occBg = ["#9fe3d0", "#f2d49b", "#ffb3d1", "#a8c4ff", "#ffa28a"];
   return (
     <>
-      <section className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 md:grid-cols-[1.1fr_1fr] md:py-20">
-        <div className="rise">
-          <h1 className="text-6xl md:text-8xl">Smell like the best part of your day.</h1>
-          <p className="mt-6 max-w-md text-lg">Everyday perfumes sorted by scent and occasion. Pick a category, find your bottle, wear it daily.</p>
-          <div className="mt-8 flex flex-wrap gap-4"><Link href="/shop" className="btn">Shop all scents</Link><Link href="/quiz" className="btn btn-alt">Find my scent</Link></div>
-        </div>
-        <div className="grid grid-cols-3 gap-3">
-          {hero.map((p, i) => (<div key={p.slug} className="rise border-2 border-ink" style={{ background: p.bg, animationDelay: `${i * 120}ms`, transform: i === 1 ? "translateY(32px)" : undefined }}><Bottle liquid={p.liquid} className="aspect-[2/3] w-full p-2" /></div>))}
-        </div>
+      <section className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-14 md:grid-cols-2 md:py-20">
+        <div><h1 className="text-5xl leading-[1.05] md:text-7xl">Find the scent that walks in before you do.</h1>
+          <p className="mt-6 max-w-md text-lg text-ink/70">24 authentic perfumes, attars and gift sets from six Indian houses. Shop by scent or by occasion.</p>
+          <div className="mt-8 flex flex-wrap gap-3"><Link href="/shop" className="btn">Shop all perfumes</Link><Link href="/quiz" className="btn btn-ghost">Find my scent</Link></div>
+          <dl className="mt-10 flex gap-8 text-sm"><div><dt className="text-ink/60">Perfumes</dt><dd className="serif text-3xl">{products.length}</dd></div><div><dt className="text-ink/60">Brands</dt><dd className="serif text-3xl">{brands.length}</dd></div><div><dt className="text-ink/60">Reviews</dt><dd className="serif text-3xl">4.7★</dd></div></dl></div>
+        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl" style={{ background: "linear-gradient(160deg,#4a215833,#c27c1a44)" }}>
+          <Photo src="/hero.jpg" alt="Perfume Darbar collection" fallback={<Bottle c1="#5b3a8a" c2="#1a0b2a" id="hero" className="absolute inset-0 m-auto h-4/5" />} /></div>
       </section>
-      <section className="border-y-2 border-ink bg-lemon py-10">
-        <div className="mx-auto max-w-7xl px-5">
-          <h2 className="text-4xl md:text-5xl">Bestselling categories</h2>
-          <div className="noscroll mt-8 flex gap-6 overflow-x-auto pb-2 md:justify-between md:gap-4">
-            {categories.map((c) => (
-              <Link key={c} href={`/shop?c=${encodeURIComponent(c)}`} className="group w-24 shrink-0 text-center md:w-auto md:flex-1">
-                <div className="mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-ink transition-transform group-hover:-translate-y-1 md:h-32 md:w-32" style={{ background: catBg[c] }}><Bottle liquid={liquid(c)} className="h-4/5" /></div>
-                <p className="display mt-3 text-lg">{c}</p><p className="hidden text-xs md:block">{catBlurb[c]}</p>
-              </Link>))}
-          </div>
-        </div>
-      </section>
-      <section className="mx-auto mt-16 max-w-7xl px-5"><h2 className="mb-6 text-4xl md:text-5xl">Top sellers by scent</h2><BestTabs /></section>
-      <section className="mx-auto mt-20 max-w-7xl px-5">
-        <h2 className="text-4xl md:text-5xl">Shop by occasion</h2>
-        <div className="noscroll mt-6 flex gap-4 overflow-x-auto pb-3 md:grid md:grid-cols-5 md:overflow-visible">
-          {occasions.map((o, i) => (<Link key={o} href={`/shop?o=${encodeURIComponent(o)}`} className="flex min-h-40 w-44 shrink-0 flex-col justify-between border-2 border-ink p-5 shadow-[4px_4px_0_#0b1020] transition-transform hover:-translate-y-1 md:w-auto" style={{ background: occBg[i] }}><h3 className="text-2xl">{o}</h3><p className="text-sm">{occBlurb[o]}</p></Link>))}
-        </div>
-      </section>
-      <section className="mx-auto mt-20 max-w-7xl px-5">
-        <div className="grid border-2 border-ink bg-lemon md:grid-cols-2">
-          <div className="p-8 md:p-12"><h2 className="text-5xl">Not sure where to start?</h2><p className="mt-4 max-w-md">Answer three questions and we'll match you with a bottle. Or try five scents first with the ₹999 discovery set.</p><Link href="/quiz" className="btn mt-6">Take the 1-minute quiz</Link></div>
-          <div className="flex items-center justify-center gap-2 border-t-2 border-ink p-8 md:border-l-2 md:border-t-0">{categories.map((c) => <div key={c} className="h-24 w-12 border-2 border-ink" style={{ background: liquid(c) }} />)}</div>
-        </div>
-      </section>
-      <section className="mx-auto mt-20 grid max-w-7xl gap-5 px-5 md:grid-cols-3">
-        {[["Chai Hour is the only perfume my whole office asked about.", "Neha, Pune"], ["Midnight Oud lasts all day on me, and it's under ₹5,000. Wild.", "Karan, Delhi"], ["The quiz picked Paper Moon. It was right.", "Sana, Hyderabad"]].map(([q, a]) => (<figure key={a} className="border-2 border-ink p-6 shadow-[6px_6px_0_#0b1020]"><blockquote className="display text-2xl leading-tight">“{q}”</blockquote><figcaption className="mt-4 text-sm text-ink/60">{a}</figcaption></figure>))}
-      </section>
-      <section className="mx-auto mt-20 max-w-7xl px-5">
-        <div className="mb-6 flex items-end justify-between"><h2 className="text-4xl md:text-5xl">From the journal</h2><Link href="/blog" className="font-semibold underline">All articles</Link></div>
-        <div className="grid gap-5 md:grid-cols-3">{posts.slice(0, 3).map((p) => <Link key={p.slug} href={`/blog/${p.slug}`} className="block border-2 border-ink transition-transform hover:-translate-y-1"><div className="aspect-[16/8] border-b-2 border-ink" style={{ background: p.tint }} /><div className="p-5"><p className="text-xs text-ink/60">{p.date}</p><h3 className="mt-1 text-2xl leading-tight">{p.title}</h3></div></Link>)}</div>
-      </section>
+      <section className="mx-auto max-w-6xl px-5"><div className="rounded-3xl bg-white p-8 md:p-10">
+        <h2 className="text-4xl">Bestselling categories</h2>
+        <div className="mt-8 flex gap-6 overflow-x-auto pb-2 md:justify-between md:gap-4">{scents.map((s) => (
+          <Link key={s} href={`/shop?s=${encodeURIComponent(s)}`} className="group w-24 shrink-0 text-center md:w-auto md:flex-1"><div className="transition-transform group-hover:-translate-y-1"><ScentIcon s={s} /></div><p className="serif mt-3 text-lg">{s}</p><p className="hidden text-xs text-ink/60 md:block">{scentBlurb[s]}</p></Link>))}</div></div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="Top sellers by scent" /><BestTabs /></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="Shop by occasion" />
+        <div className="flex gap-4 overflow-x-auto pb-3 md:grid md:grid-cols-5 md:overflow-visible">{occasions.map((o, i) => <Link key={o} href={`/shop?o=${encodeURIComponent(o)}`} className="flex min-h-40 w-44 shrink-0 flex-col justify-between rounded-2xl p-5 transition-transform hover:-translate-y-1 md:w-auto" style={{ background: occBg[i] }}><h3 className="text-2xl">{o}</h3><p className="text-sm text-ink/70">{occBlurb[o]}</p></Link>)}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="Shop by who it's for" /><div className="grid grid-cols-2 gap-4 md:grid-cols-5">{tiles.map(([n, h, img, bg]) => (
+        <Link key={n} href={h} className="group relative aspect-[3/4] overflow-hidden rounded-2xl" style={{ background: bg }}><Photo src={`/categories/${img}.jpg`} alt={n} /><span className="absolute bottom-3 left-3 rounded-full bg-white px-4 py-2 text-sm font-semibold group-hover:bg-ink group-hover:text-white">{n}</span></Link>))}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="New arrivals" href="/collections/new-arrivals" /><div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">{col("new-arrivals").slice(0, 4).map((p) => <ProductCard key={p.slug} p={p} />)}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><div className="rounded-3xl bg-white p-8 md:p-10"><p className="mb-5 text-sm text-ink/60">Shop by brand</p><div className="flex flex-wrap gap-x-10 gap-y-4">{brands.map((b) => <Link key={b} href={`/shop?b=${encodeURIComponent(b)}`} className="serif text-2xl hover:text-amber md:text-3xl">{b}</Link>)}</div></div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><div className="grid overflow-hidden rounded-3xl bg-ink text-white md:grid-cols-2"><div className="p-10 md:p-14"><h2 className="text-4xl md:text-5xl">The Oud collection</h2><p className="mt-4 max-w-sm text-white/70">Deep, resinous and made for the evening. Perfumes built around real agarwood.</p><Link href="/shop?s=Oud" className="btn mt-7 bg-amber hover:bg-amber/80">Explore oud</Link></div><div className="relative min-h-64" style={{ background: "linear-gradient(135deg,#5b3a8a,#1a0b2a)" }}><Photo src="/categories/oud.jpg" alt="Oud collection" fallback={<Bottle c1="#5b3a8a" c2="#c27c1a" id="oud" className="absolute inset-0 m-auto h-3/4" />} /></div></div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="Gift sets" href="/collections/gift-sets" /><div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3">{col("gift-sets").map((p) => <ProductCard key={p.slug} p={p} />)}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><div className="grid gap-6 rounded-3xl bg-plum p-10 text-white md:grid-cols-[1fr_auto] md:items-center md:p-14"><div><h2 className="text-4xl md:text-5xl">Not sure where to start?</h2><p className="mt-3 max-w-md text-white/75">Answer three questions and we'll match you with a scent family and a bottle.</p></div><Link href="/quiz" className="btn bg-white !text-ink hover:bg-amber hover:!text-white">Take the 1-minute quiz</Link></div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><div className="grid gap-px overflow-hidden rounded-2xl bg-line md:grid-cols-4">{[["100% authentic", "Sourced directly from the house."], ["Free sample", "With every order, always."], ["30-day returns", "On unused, sealed bottles."], ["Secure payments", "UPI, cards and cash on delivery."]].map(([t, d]) => <div key={t} className="bg-white p-7"><h3 className="text-lg">{t}</h3><p className="mt-1 text-sm text-ink/70">{d}</p></div>)}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><h2 className="mb-8 text-4xl">What customers say</h2><div className="grid gap-5 md:grid-cols-3">{[["Amber Noir gets a compliment every single time. Easily 9 hours on my skin.", "Rohan, Mumbai"], ["Jaipur Rose is the first rose perfume that doesn't smell like soap.", "Ishita, Delhi"], ["The Discovery Set made choosing easy. Packaging felt like a gift.", "Meera, Bengaluru"]].map(([q, a]) => <figure key={a} className="rounded-2xl bg-white p-7"><blockquote className="serif text-lg leading-snug">“{q}”</blockquote><figcaption className="mt-4 text-sm text-ink/60">{a}</figcaption></figure>)}</div></section>
+      <section className="mx-auto mt-20 max-w-6xl px-5"><Head t="From the journal" href="/blog" /><div className="grid gap-5 md:grid-cols-3">{posts.slice(0, 3).map((p) => <Link key={p.slug} href={`/blog/${p.slug}`} className="group block"><div className="aspect-[16/10] rounded-2xl" style={{ background: p.tint }} /><p className="mt-3 text-xs text-ink/55">{p.date}</p><h3 className="serif mt-1 text-xl group-hover:text-plum">{p.title}</h3></Link>)}</div></section>
     </>
   );
 }
