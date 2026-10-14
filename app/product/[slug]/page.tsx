@@ -10,5 +10,5 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const others = products.filter((x) => x.slug !== p.slug);
   const related = others.filter((x) => x.brand === p.brand || x.family === p.family).concat(others).filter((x, i, a) => a.indexOf(x) === i).slice(0, 4);
   return (<div className="mx-auto max-w-6xl px-5 py-10"><ProductView p={p} reviews={reviewsFor(p)} />
-    <section className="mt-24"><h2 className="mb-8 text-3xl">You may also like</h2><div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">{related.map((r) => <ProductCard key={r.slug} p={r} />)}</div></section></div>);
+    <section className="mt-24"><h2 className="mb-8 text-3xl">Fragrances you might love</h2><div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">{related.map((r) => <ProductCard key={r.slug} p={r} />)}</div></section></div>);
 }

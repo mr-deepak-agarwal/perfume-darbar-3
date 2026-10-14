@@ -47,7 +47,8 @@ export const products: Product[] = rows.map((r, i) => {
     size: size ?? (conc === "Attar" ? "12 ml" : conc === "Parfum" ? "50 ml" : "100 ml"), rating: +(4.3 + ((i * 3) % 7) / 10).toFixed(1), reviews: 40 + ((i * 53) % 260) };
 });
 export const off = (p: Product) => Math.round((1 - p.price / p.mrp) * 100);
-export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
+export const getProduct = (slug: string) => products.find((p) => p.slug === slug) ?? samples.find((p) => p.slug === slug);
+export const hoursOf = (p: Product) => (p.conc === "Attar" ? "10+" : p.conc === "Parfum" ? "10 to 12" : p.conc === "EDP" ? "8 to 10" : p.conc === "EDT" ? "5 to 7" : "");
 export const brands = [...new Set(products.map((p) => p.brand))];
 export const families = [...new Set(products.map((p) => p.family))].filter((f) => f !== "Set");
 export const concs = ["EDT", "EDP", "Parfum", "Attar"];
@@ -62,6 +63,7 @@ export const collections: { slug: string; title: string; desc: string; test: (p:
   { slug: "office-picks", title: "Office picks", desc: "Clean, quiet and polite.", test: (p) => p.occasions.includes("Office") },
   { slug: "date-night", title: "Date night", desc: "Close, warm and memorable.", test: (p) => p.occasions.includes("Date night") },
 ];
-const rn = ["Aarav", "Meera", "Rohan", "Ishita", "Karan", "Sana", "Neha", "Vikram"];
-const rt = ["Lasts well past 8 hours and the dry down is beautiful.", "Got compliments the first day I wore it. Packaging felt premium.", "Not too loud, perfect for office and evenings. Will reorder.", "Smells like the notes list says. Great value for the price."];
-export const reviewsFor = (p: Product) => [0, 1, 2].map((i) => ({ name: rn[(p.slug.length + i * 3) % 8], rating: i === 1 ? 4 : 5, text: rt[(p.slug.length + i) % 4], date: ["12 Sep 2026", "30 Aug 2026", "14 Aug 2026"][i] }));
+export const samples: Product[] = products.filter((p) => p.category !== "Gift Set" && p.conc !== "Attar").map((p) => { const price = p.conc === "EDT" ? 149 : p.conc === "EDP" ? 199 : 299; return { ...p, slug: `${p.slug}-sample`, name: `${p.name} Sample`, size: "5 ml", price, mrp: price, tag: "Sample" }; });
+const rn = ["Aarav M.", "Meera K.", "Rohan S.", "Ishita P.", "Karan T.", "Sana R.", "Neha B.", "Vikram J.", "Deepak S.", "Yash G.", "Pooja L.", "Imran A."];
+const rt = ["Lasts well past 8 hours and the dry down is beautiful.", "Got compliments the first day I wore it. Packaging felt premium.", "Not too loud, works for office and evenings. Will reorder.", "Smells like the notes list says. Great value for the price.", "Opening is fresh, then it settles into something warm. Daily wear ke liye perfect.", "Gifted this to my brother and he loved it. Sealed and well packed.", "Good projection for the first two hours, then it stays close to the skin.", "Quality is solid for the price. The sample helped me decide before buying."];
+export const reviewsFor = (p: Product) => [0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({ name: rn[(p.slug.length + i * 5) % 12], rating: [5, 5, 4, 5, 4, 5, 5, 4][i], text: rt[(p.slug.length + i * 3) % 8], date: ["12 Oct 2026", "04 Oct 2026", "28 Sep 2026", "19 Sep 2026", "11 Sep 2026", "30 Aug 2026", "21 Aug 2026", "09 Aug 2026"][i], verified: true }));
