@@ -3,12 +3,15 @@ import Link from "next/link";
 import ProductImage from "@/components/ProductImage";
 import ProductCard from "@/components/ProductCard";
 import { useCart } from "@/components/CartContext";
-import { getProduct, money, products } from "@/lib/products";
+import { money } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogContext";
 import { bundleInfo, FREE_SHIP, SHIP_FEE, PREPAID_OFF } from "@/lib/offers";
 export default function Cart() {
-  const { lines, setQty, remove, subtotal } = useCart();
+  const { lines, ready, setQty, remove, subtotal } = useCart();
+  const { products, getProduct } = useCatalog();
+  if (!ready) return <div className="mx-auto max-w-xl px-5 py-24 text-center text-ink/50" aria-busy="true">Loading your cart…</div>;
   if (!lines.length) return <div className="mx-auto max-w-xl px-5 py-24 text-center"><h1 className="text-4xl">Your cart is empty</h1><p className="mt-3 text-ink/60">Find a scent worth wearing every day.</p><div className="mt-6 flex justify-center gap-3"><Link href="/shop" className="btn">Shop all perfumes</Link><Link href="/samples" className="btn btn-ghost">Try samples</Link></div></div>;
-  const b = bundleInfo(lines);
+  const b = bundleInfo(lines, getProduct);
   const ship = subtotal >= FREE_SHIP ? 0 : SHIP_FEE;
   const left = Math.max(0, FREE_SHIP - subtotal);
   const inCart = new Set(lines.map((l) => l.slug));

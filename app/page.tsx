@@ -6,18 +6,22 @@ import BestTabs from "@/components/BestTabs";
 import TrustStrip from "@/components/TrustStrip";
 import Carousel from "@/components/Carousel";
 import ScentIcon from "@/components/ScentIcon";
-import { products, brands, collections, scents, scentBlurb, occasions, occBlurb } from "@/lib/products";
+import { brandsOf, collections, scents, scentBlurb, occasions, occBlurb } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 import { posts } from "@/lib/content";
-const col = (s: string) => products.filter(collections.find((c) => c.slug === s)!.test);
 const tiles = [["Women", "/shop?g=Women", "women", "#f2c6d4"], ["Men", "/shop?g=Men", "men", "#cfd8f0"], ["Unisex", "/shop?g=Unisex", "unisex", "#d9ead3"], ["Attars", "/collections/attars", "attars", "#f3e2b8"], ["Gift sets", "/collections/gift-sets", "gifts", "#e2d3ee"]];
 const occBg = ["#d9ead3", "#cfd8f0", "#f2c6d4", "#f3e2b8", "#e2d3ee"];
 const Head = ({ t, href }: { t: string; href?: string }) => <div className="mb-8 flex items-end justify-between"><h2 className="text-4xl">{t}</h2>{href && <Link href={href} className="text-sm underline underline-offset-4">View all</Link>}</div>;
-export default function Home() {
+export default async function Home() {
+  const catalog = await getCatalog();
+  const { products } = catalog;
+  const brands = brandsOf(catalog);
+  const col = (s: string) => products.filter(collections.find((c) => c.slug === s)!.test);
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-8 px-5 py-14 md:grid-cols-2 md:py-20">
         <div><h1 className="text-5xl leading-[1.05] md:text-7xl">Find the scent that walks in before you do.</h1>
-          <p className="mt-6 max-w-md text-lg text-ink/70">24 authentic perfumes, attars and gift sets from six Indian houses. Shop by scent or by occasion.</p>
+          <p className="mt-6 max-w-md text-lg text-ink/70">{products.length} authentic perfumes, attars and gift sets from {brands.length} Indian houses. Shop by scent or by occasion.</p>
           <div className="mt-8 flex flex-wrap gap-3"><Link href="/shop" className="btn">Shop all perfumes</Link><Link href="/quiz" className="btn btn-ghost">Find my scent</Link></div>
           <dl className="mt-10 flex gap-8 text-sm"><div><dt className="text-ink/60">Perfumes</dt><dd className="serif text-3xl">{products.length}</dd></div><div><dt className="text-ink/60">Brands</dt><dd className="serif text-3xl">{brands.length}</dd></div><div><dt className="text-ink/60">Reviews</dt><dd className="serif text-3xl">4.7★</dd></div></dl></div>
         <div className="relative aspect-[4/5] overflow-hidden rounded-3xl" style={{ background: "linear-gradient(160deg,#4a215833,#c27c1a44)" }}>

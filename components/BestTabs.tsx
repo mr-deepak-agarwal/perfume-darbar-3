@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
-import { scents, products, Scent } from "@/lib/products";
+import { scents, Scent } from "@/lib/products";
+import { useCatalog } from "./CatalogContext";
 export default function BestTabs() {
+  const { products } = useCatalog();
   const [s, setS] = useState<Scent>("Fresh Notes");
   const list = products.filter((p) => p.scent === s).sort((a, b) => b.sold - a.sold).slice(0, 4);
   return (

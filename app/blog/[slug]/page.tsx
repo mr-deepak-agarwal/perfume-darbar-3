@@ -2,6 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { posts } from "@/lib/content";
 export function generateStaticParams() { return posts.map((p) => ({ slug: p.slug })); }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const p = posts.find((x) => x.slug === slug);
+  return p ? { title: `${p.title} | Perfume Darbar`, description: p.excerpt, alternates: { canonical: `/blog/${p.slug}` } } : { title: "Not found | Perfume Darbar", robots: { index: false } };
+}
 export default async function Post({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const p = posts.find((x) => x.slug === slug);

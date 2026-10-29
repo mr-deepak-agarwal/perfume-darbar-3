@@ -1,9 +1,10 @@
 import Link from "next/link";
 import SampleCard from "@/components/SampleCard";
-import { samples } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 export const metadata = { title: "Order samples | Perfume Darbar" };
 const perks = [["Premium quality", "The same juice as the full bottle"], ["Pocket friendly", "From ₹149 for 5 ml"], ["100% authentic", "Filled from sealed stock"], ["Travel ready", "Slim spray fits any bag"]];
-export default function Samples() {
+export default async function Samples() {
+  const { samples } = await getCatalog();
   return (
     <div className="mx-auto max-w-6xl px-5 py-12">
       <div className="rounded-3xl p-8 md:p-14" style={{ background: "linear-gradient(135deg,#d8cbf2,#f6c9d9)" }}>

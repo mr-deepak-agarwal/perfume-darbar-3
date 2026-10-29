@@ -8,7 +8,7 @@ export default function SampleCard({ p }: { p: Product }) {
   const base = p.slug.replace(/-sample$/, "");
   return (
     <div className="rounded-2xl bg-white p-4">
-      <Link href={`/product/${base}`} className="relative block aspect-square overflow-hidden rounded-xl bg-mist" aria-label={p.name}><ProductImage p={p} /></Link>
+      <Link href={`/product/${base}`} className="relative block aspect-[4/5] overflow-hidden rounded-xl bg-mist" aria-label={p.name}><ProductImage p={p} /></Link>
       <p className="mt-3 text-xs text-ink/55">{p.brand}</p>
       <h3 className="serif text-lg leading-tight">{p.name.replace(" Sample", "")}</h3>
       <p className="text-sm text-ink/60">{p.scent} · 5 ml travel spray</p>

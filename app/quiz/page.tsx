@@ -2,13 +2,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogContext";
 const qs = [
   { q: "Pick a perfect evening", o: [["Rooftop with friends", "Fresh Notes"], ["Dessert date", "Sweet"], ["A wedding night", "Oud"], ["Bonfire by the river", "Woody"], ["Street food and chai", "Spicy"]] },
   { q: "Your weekend colour", o: [["Mint green", "Fresh Notes"], ["Pink", "Sweet"], ["Deep purple", "Oud"], ["Sandstone", "Woody"], ["Saffron orange", "Spicy"]] },
   { q: "You want people to think", o: [["Clean and effortless", "Fresh Notes"], ["Soft and charming", "Sweet"], ["Rich and regal", "Oud"], ["Calm and grounded", "Woody"], ["Bold and warm", "Spicy"]] },
 ];
 export default function Quiz() {
+  const { products } = useCatalog();
   const [i, setI] = useState(0);
   const [a, setA] = useState<string[]>([]);
   const done = a.length === qs.length;

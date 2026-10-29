@@ -1,9 +1,10 @@
-import { getProduct } from "./products";
+import type { Product } from "./products";
 export const FREE_SHIP = 3999;
 export const SHIP_FEE = 149;
 export const PREPAID_OFF = 50;
+export const COD_MAX = 10000;
 export const OFFERS = ["BUY 2 GET 1 FREE ON PERFUMES", "PAY ONLINE AND SAVE ₹50", "FREE SHIPPING ABOVE ₹3,999", "SAMPLES FROM ₹149", "FREE SAMPLE WITH EVERY ORDER"];
-export function bundleInfo(lines: { slug: string; qty: number }[]) {
+export function bundleInfo(lines: { slug: string; qty: number }[], getProduct: (slug: string) => Product | undefined) {
   const units: number[] = [];
   for (const l of lines) {
     const p = getProduct(l.slug);

@@ -3,7 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import ScentIcon from "@/components/ScentIcon";
-import { products, brands, concs, scents, occasions } from "@/lib/products";
+import { concs, scents, occasions } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogContext";
 const bands: [string, string, (n: number) => boolean][] = [["", "Price", () => true], ["u3", "Under ₹3,000", (n) => n < 3000], ["3to6", "₹3,000 to ₹6,000", (n) => n >= 3000 && n <= 6000], ["6to9", "₹6,000 to ₹9,000", (n) => n > 6000 && n <= 9000], ["9p", "Above ₹9,000", (n) => n > 9000]];
 const quick = ["Bestseller", "New", "Limited", "Under ₹5,000"];
 const sorts = [["pop", "Popularity"], ["low", "Price: low to high"], ["high", "Price: high to low"], ["rating", "Top rated"]];
@@ -12,6 +13,7 @@ function Sel({ v, set, label, opts }: { v: string; set: (s: string) => void; lab
   return <select aria-label={label} value={v} onChange={(e) => set(e.target.value)} className={cc(!!v)}><option value="">{label}</option>{opts.map((o) => <option key={o} className="text-ink">{o}</option>)}</select>;
 }
 export default function Shop({ init }: { init: { s?: string; g?: string; o?: string; b?: string; k?: string; q?: string } }) {
+  const { products, brands } = useCatalog();
   const [sc, setSc] = useState(init.s || "");
   const [occ, setOcc] = useState(init.o || "");
   const [gen, setGen] = useState(init.g || "");
@@ -24,7 +26,7 @@ export default function Shop({ init }: { init: { s?: string; g?: string; o?: str
   const [sheet, setSheet] = useState<"" | "sort" | "filter">("");
   const ql = (init.q || "").toLowerCase();
   const inBand = bands.find((b) => b[0] === band)![2];
-  const list = products.filter((p) => (!sc || p.scent === sc) && (!occ || p.occasions.includes(occ)) && (!gen || p.category === gen) && (!brand || p.brand === brand) && (!conc || p.conc === conc) && inBand(p.price) && (!qk || (qk === "Under ₹5,000" ? p.price < 5000 : p.tag === qk)) && (!ql || `${p.name} ${p.brand} ${p.scent} ${p.top} ${p.heart} ${p.base}`.toLowerCase().includes(ql)))
+  const list = products.filter((p) => (!sc || p.scent === sc) && (!occ || p.occasions.includes(occ)) && (!gen || p.category === gen) && (!brand || p.brand === brand) && (!conc || p.conc === conc) && inBand(p.price) && (!qk || (qk === "Under ₹5,000" ? p.price < 5000 : p.tag === qk)) && (!ql || `${p.name} ${p.brand} ${p.scent ?? ""} ${p.top} ${p.heart} ${p.base}`.toLowerCase().includes(ql)))
     .sort((a, b) => sort === "low" ? a.price - b.price : sort === "high" ? b.price - a.price : sort === "rating" ? b.rating - a.rating : b.sold - a.sold);
   const reset = () => { setSc(""); setOcc(""); setGen(""); setBrand(""); setConc(""); setBand(""); setQk(""); };
   const on = !!(sc || occ || gen || brand || conc || band);

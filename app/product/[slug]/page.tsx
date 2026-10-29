@@ -1,12 +1,22 @@
 import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import ProductView from "./ProductView";
-import { getProduct, products, reviewsFor } from "@/lib/products";
-export function generateStaticParams() { return products.map((p) => ({ slug: p.slug })); }
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) { const p = getProduct((await params).slug); return { title: p ? `${p.name} by ${p.brand} | Perfume Darbar` : "Not found" }; }
+import { reviewsFor } from "@/lib/products";
+import { getCatalog, getProductBySlug } from "@/lib/catalog";
+export async function generateStaticParams() { return (await getCatalog()).products.map((p) => ({ slug: p.slug })); }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const slug = (await params).slug;
+  const p = await getProductBySlug(slug);
+  if (!p) return { title: "Not found | Perfume Darbar", robots: { index: false } };
+  const title = `${p.name} by ${p.brand} | Perfume Darbar`;
+  const isSample = p.tag === "Sample";
+  const img = p.image ?? `/products/${slug.replace(/-sample$/, "")}.jpg`;
+  return { title, description: p.desc, alternates: { canonical: `/product/${slug.replace(/-sample$/, "")}` }, robots: isSample ? { index: false } : undefined, openGraph: { title, description: p.desc, images: [img] } };
+}
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const p = getProduct((await params).slug);
+  const p = await getProductBySlug((await params).slug);
   if (!p) notFound();
+  const { products } = await getCatalog();
   const others = products.filter((x) => x.slug !== p.slug);
   const related = others.filter((x) => x.brand === p.brand || x.family === p.family).concat(others).filter((x, i, a) => a.indexOf(x) === i).slice(0, 4);
   return (<div className="mx-auto max-w-6xl px-5 py-10"><ProductView p={p} reviews={reviewsFor(p)} />
