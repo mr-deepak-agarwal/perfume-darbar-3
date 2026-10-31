@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Rozha_One, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import CatalogProvider from "@/components/CatalogContext";
@@ -8,8 +8,8 @@ import CartProvider from "@/components/CartContext";
 import WishlistProvider from "@/components/WishlistContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const display = Rozha_One({ subsets: ["latin"], weight: "400", variable: "--font-display" });
+const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body" });
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "Perfume Darbar | Pure oils and perfumes, Ponda Goa", template: "%s" },
@@ -21,7 +21,7 @@ export const revalidate = 60; // re-read the catalog from Supabase at most once 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const catalog = await getCatalog();
   return (
-    <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body><CatalogProvider catalog={catalog}><CartProvider><WishlistProvider><Header /><main>{children}</main><Footer /></WishlistProvider></CartProvider></CatalogProvider></body>
     </html>
   );

@@ -40,9 +40,9 @@ export default function ProductView({ p, reviews }: { p: Product; reviews: Revie
             <p className="mb-2 text-sm font-semibold">Choose format and size</p>
             {kinds.map((k) => (
               <div key={k} className="mb-3">
-                <p className="mb-1.5 text-xs uppercase tracking-wide text-ink/55">{k === "Pure oil" ? "Pure oil (alcohol-free)" : "Perfume"}</p>
+                <p className="mb-1.5 text-sm text-ink/65">{k === "Pure oil" ? "Pure oil (alcohol-free)" : "Perfume"}</p>
                 <div className="flex flex-wrap gap-2">{p.variants.filter((x) => x.kind === k).map((x) => (
-                  <button key={x.id} onClick={() => pick(x.id)} aria-pressed={vid === x.id} className={`rounded-xl border px-4 py-2 text-left text-sm ${vid === x.id ? "border-ink bg-ink text-white" : "border-line bg-white"}`}><b className="block">{x.size}</b><span className={vid === x.id ? "text-white/80" : "text-ink/60"}>{money(x.price)}</span></button>
+                  <button key={x.id} onClick={() => pick(x.id)} aria-pressed={vid === x.id} className={`rounded-xl border px-4 py-2 text-left text-sm ${vid === x.id ? "border-plum bg-plum text-white" : "border-line bg-white"}`}><b className="block">{x.size}</b><span className={vid === x.id ? "text-white/80" : "text-ink/60"}>{money(x.price)}</span></button>
                 ))}</div>
               </div>
             ))}

@@ -1,21 +1,38 @@
 @import "tailwindcss";
 @theme inline {
-  --color-mist: #f1edf3;
-  --color-ink: #24102e;
-  --color-amber: #c27c1a;
-  --color-plum: #4a2158;
-  --color-line: #ddd3e3;
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  /* Perfume Darbar palette. Names kept from v1 so existing classes pick up the new colours. */
+  --color-mist: #f7ece8;     /* gulab: rose-petal ground */
+  --color-ink: #1e1410;      /* text */
+  --color-amber: #a8741f;    /* brass: gold used for text and links on light ground */
+  --color-plum: #0e3b33;     /* mehndi emerald: the brand dark */
+  --color-line: #e6d3ca;
+  --color-gold: #d2a24a;     /* zari gold: fills and rules on dark */
+  --color-deep: #082822;     /* deepest emerald: footer, header */
+  --color-kesar: #e07b28;
+  --font-serif: var(--font-display), Georgia, serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  /* squarer corners everywhere: this is a shop, not an app */
+  --radius-lg: 3px; --radius-xl: 4px; --radius-2xl: 6px; --radius-3xl: 8px;
 }
-body { background: var(--color-mist); color: var(--color-ink); font-family: var(--font-sans); }
-h1, h2, h3, .serif { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.01em; }
-:focus-visible { outline: 2px solid var(--color-amber); outline-offset: 2px; }
-.field { width: 100%; border: 1px solid var(--color-line); background: #fff; padding: 0.7rem 0.9rem; border-radius: 6px; font-size: 0.95rem; }
-.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--color-ink); color: #fff; padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 600; font-size: 0.92rem; transition: background .2s; }
-.btn:hover { background: var(--color-plum); }
-.btn-ghost { background: transparent; color: var(--color-ink); border: 1px solid var(--color-ink); }
-.btn-ghost:hover { background: var(--color-ink); color: #fff; }
+body { background: var(--color-mist); color: var(--color-ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.55; }
+h1, h2, h3, .serif { font-family: var(--font-serif); font-weight: 400; letter-spacing: 0; }
+:focus-visible { outline: 2px solid var(--color-kesar); outline-offset: 2px; }
+::selection { background: var(--color-gold); color: var(--color-ink); }
+@layer components {
+  .field { width: 100%; border: 1px solid var(--color-line); background: #fff; padding: 0.7rem 0.9rem; border-radius: 2px; font-size: 0.95rem; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; background: var(--color-plum); color: #fff; padding: 0.85rem 1.7rem; border-radius: 2px; font-weight: 600; font-size: 0.93rem; letter-spacing: 0.01em; transition: background .2s, color .2s; }
+  .btn:hover { background: var(--color-ink); }
+  .btn-gold { background: var(--color-gold); color: var(--color-ink); }
+  .btn-gold:hover { background: #e3b660; }
+  .btn-ghost { background: transparent; color: var(--color-ink); border: 1px solid var(--color-ink); }
+  .btn-ghost:hover { background: var(--color-ink); color: #fff; }
+  .btn-ghost-light { background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / .5); }
+  .btn-ghost-light:hover { background: #fff; color: var(--color-plum); }
+  /* arch (mehrab) frame: the signature shape. Gold hairline outside, image inside. */
+  .arch { border-radius: 999px 999px 4px 4px; }
+  .arch-frame { border: 1px solid var(--color-gold); border-radius: 999px 999px 8px 8px; padding: 8px; }
+  .rule-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
+}
 @keyframes mist-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .hero-in { animation: mist-in .9s ease both; }
 @media (prefers-reduced-motion: reduce) { .hero-in { animation: none; } }
