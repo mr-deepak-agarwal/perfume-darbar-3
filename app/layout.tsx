@@ -12,9 +12,9 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Perfume Darbar | Small-batch perfumes", template: "%s" },
-  description: "Niche perfumes blended in India. Free shipping above ₹3,999.",
-  openGraph: { type: "website", siteName: "Perfume Darbar", url: SITE_URL, title: "Perfume Darbar | Small-batch perfumes", description: "Niche perfumes blended in India. Free shipping above ₹3,999.", images: ["/products/midnight-oud.jpg"] },
+  title: { default: "Perfume Darbar | Pure oils and perfumes, Ponda Goa", template: "%s" },
+  description: "Pure oils and perfumes from Ponda, Goa. 100 fragrances from ₹100.",
+  openGraph: { type: "website", siteName: "Perfume Darbar", url: SITE_URL, title: "Perfume Darbar | Pure oils and perfumes, Ponda Goa", description: "Pure oils and perfumes from Ponda, Goa. 100 fragrances from ₹100.", images: ["/og.jpg"] },
 };
 export const revalidate = 60; // re-read the catalog from Supabase at most once a minute
 

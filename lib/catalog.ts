@@ -1,14 +1,14 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { supabase } from "./supabaseClient";
-import { Catalog, Product, Cat, Scent, staticCatalog, findProduct } from "./products";
+import { Catalog, Product, Cat, Scent, Variant, staticCatalog, findProduct } from "./products";
 
 // One row of the Supabase `products` table (see supabase/schema.sql).
 type Row = {
   slug: string; name: string; brand: string; category: Cat; scent: Scent | null; family: string; conc: string; size: string;
-  price: number; mrp: number; tag: string | null; is_sample: boolean; top: string | null; heart: string | null; base: string | null;
+  price: number; mrp: number; tag: string | null; top: string | null; heart: string | null; base: string | null;
   description: string | null; occasions: string[] | null; rating: number | string; review_count: number; sold: number;
-  c1: string | null; c2: string | null; image_url: string | null;
+  c1: string | null; c2: string | null; image_url: string | null; variants: Variant[] | null;
 };
 
 const fromRow = (r: Row): Product => ({
@@ -16,6 +16,7 @@ const fromRow = (r: Row): Product => ({
   price: r.price, mrp: r.mrp, tag: r.tag ?? undefined, top: r.top ?? "", heart: r.heart ?? "", base: r.base ?? "", desc: r.description ?? "",
   occasions: r.occasions ?? [], rating: Number(r.rating), reviews: r.review_count, sold: r.sold, c1: r.c1 ?? "#5b3a8a", c2: r.c2 ?? "#1a0b2a",
   image: r.image_url ?? undefined,
+  variants: Array.isArray(r.variants) ? r.variants : [],
 });
 
 async function load(): Promise<Catalog> {
@@ -24,11 +25,13 @@ async function load(): Promise<Catalog> {
   // Throw on failure so Next keeps serving the last good cached catalog instead of caching a fallback.
   if (error) throw new Error(error.message);
   if (!data?.length) throw new Error("products table is empty (run supabase/seed.sql)");
-  const all = (data as Row[]).map((r) => ({ p: fromRow(r), sample: r.is_sample }));
-  return { products: all.filter((x) => !x.sample).map((x) => x.p), samples: all.filter((x) => x.sample).map((x) => x.p), source: "supabase" };
+  // A product without prices can't be sold, so skip any row that has no variants.
+  const products = (data as Row[]).map(fromRow).filter((p) => p.variants.length > 0);
+  if (!products.length) throw new Error("no products with variants (re-run supabase/seed.sql)");
+  return { products, source: "supabase" };
 }
 
-const cached = unstable_cache(load, ["catalog-v1"], { revalidate: 60, tags: ["catalog"] });
+const cached = unstable_cache(load, ["catalog-v2"], { revalidate: 60, tags: ["catalog"] });
 
 // Cached for 60 s so page views don't each hit Supabase; edits in Supabase show up within about a minute.
 // If Supabase is unreachable and nothing is cached yet, fall back to the built-in catalog so the shop never goes blank.

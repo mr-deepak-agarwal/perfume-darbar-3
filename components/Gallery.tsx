@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ProductImage from "./ProductImage";
 import { Product } from "@/lib/products";
 export default function Gallery({ p }: { p: Product }) {
-  const base = p.slug.replace(/-sample$/, "");
+  const base = p.slug;
   const [extra, setExtra] = useState<string[]>([]);
   const [i, setI] = useState(0);
   useEffect(() => { [2, 3, 4].forEach((n) => { const src = `/products/${base}-${n}.jpg`; const im = new Image(); im.onload = () => setExtra((e) => (e.includes(src) ? e : [...e, src].sort())); im.src = src; }); }, [base]);

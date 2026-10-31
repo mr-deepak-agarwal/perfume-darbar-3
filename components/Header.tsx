@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import { OFFERS } from "@/lib/offers";
-const nav = [["Women", "/shop?g=Women"], ["Men", "/shop?g=Men"], ["Unisex", "/shop?g=Unisex"], ["Attars", "/collections/attars"], ["Gift sets", "/collections/gift-sets"], ["Samples", "/samples"], ["Brands", "/brands"], ["Find my scent", "/quiz"]];
+const nav = [["Women", "/shop?g=Women"], ["Men", "/shop?g=Men"], ["Unisex", "/shop?g=Unisex"], ["Oud", "/collections/oud"], ["Musk", "/collections/musk"], ["Collections", "/collections"], ["Find my scent", "/quiz"]];
 export default function Header() {
   const { count } = useCart();
   const { ids } = useWishlist();
@@ -18,7 +18,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <button className="text-sm md:hidden" onClick={() => setOpen(!open)}>{open ? "Close" : "Menu"}</button>
         <Link href="/" className="serif text-xl tracking-wide sm:text-2xl">Perfume Darbar</Link>
-        <form className="hidden flex-1 max-w-xs md:block" onSubmit={(e) => { e.preventDefault(); r.push(`/shop?q=${encodeURIComponent(q)}`); }}><input className="field !rounded-full !py-2" placeholder="Search perfumes, brands, notes" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>
+        <form className="hidden flex-1 max-w-xs md:block" onSubmit={(e) => { e.preventDefault(); r.push(`/shop?q=${encodeURIComponent(q)}`); }}><input className="field !rounded-full !py-2" placeholder="Search fragrances or notes" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} /></form>
         <div className="flex items-center gap-4 text-sm"><Link href="/account" className="hidden sm:block hover:text-amber">Account</Link><Link href="/wishlist" className="hover:text-amber">♡ {ids.length}</Link><Link href="/cart" className="hover:text-amber">Cart ({count})</Link></div>
       </div>
       <nav className="mx-auto hidden max-w-6xl justify-center gap-8 px-5 pb-3 text-sm md:flex">{nav.map(([l, h]) => <Link key={h} href={h} className="hover:text-amber">{l}</Link>)}</nav>
