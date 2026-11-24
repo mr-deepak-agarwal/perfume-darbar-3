@@ -2,14 +2,15 @@ import { notFound } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import ProductView from "./ProductView";
 import { reviewsFor } from "@/lib/products";
+import { USE_PRODUCT_PHOTOS } from "@/lib/site";
 import { getCatalog, getProductBySlug } from "@/lib/catalog";
 export async function generateStaticParams() { return (await getCatalog()).products.map((p) => ({ slug: p.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const slug = (await params).slug;
   const p = await getProductBySlug(slug);
   if (!p) return { title: "Not found | Perfume Darbar", robots: { index: false } };
-  const title = `${p.name} | Pure oil and perfume | Perfume Darbar`;
-  const img = p.image ?? `/products/${slug}.jpg`;
+  const title = `${p.name} | Perfume | Perfume Darbar`;
+  const img = p.image ?? (USE_PRODUCT_PHOTOS ? `/products/${slug}.jpg` : "/og.jpg");
   return { title, description: p.desc, alternates: { canonical: `/product/${slug}` }, openGraph: { title, description: p.desc, images: [img] } };
 }
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

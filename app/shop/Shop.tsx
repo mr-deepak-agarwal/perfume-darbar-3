@@ -69,7 +69,7 @@ export default function Shop({ init }: { init: { s?: string; g?: string; o?: str
   return (
     <div className="mx-auto max-w-6xl px-5 pb-24 pt-12 md:pb-12">
       <h1 className="text-5xl">{heading}</h1>
-      <p className="mt-2 text-ink/60">Pure oils from ₹100 and perfumes from ₹350.</p>
+      <p className="mt-2 text-ink/60">Perfumes in 30, 50 and 100 ml, from ₹350.</p>
       <div className="mt-8 grid gap-10 md:grid-cols-[15rem_1fr]">
         <aside className="hidden md:block">
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">

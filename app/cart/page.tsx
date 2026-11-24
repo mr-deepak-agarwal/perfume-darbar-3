@@ -4,7 +4,7 @@ import ProductImage from "@/components/ProductImage";
 import ProductCard from "@/components/ProductCard";
 import { useCart } from "@/components/CartContext";
 import { useCatalog } from "@/components/CatalogContext";
-import { money, variantOf, variantLabel } from "@/lib/products";
+import { money, variantOf, variantLabel, VariantId, mrpOf } from "@/lib/products";
 import { FREE_SHIP, SHIP_FEE, PREPAID_OFF } from "@/lib/offers";
 export default function Cart() {
   const { lines, ready, setQty, remove, subtotal, priceOfLine } = useCart();
@@ -25,8 +25,8 @@ export default function Cart() {
         <ul className="divide-y divide-line">
           {lines.map((l) => { const p = getProduct(l.slug)!; const v = variantOf(p, l.v); return (
             <li key={l.slug + l.v} className="flex gap-5 py-5">
-              <Link href={`/product/${p.slug}`} className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-white"><ProductImage p={p} /></Link>
-              <div className="flex-1"><div className="flex justify-between gap-3"><div><h3 className="serif text-xl">{p.name}</h3><p className="text-sm text-ink/60">{variantLabel(v)} · {money(v.price)} each</p></div><p className="font-semibold">{money(priceOfLine(l) * l.qty)}</p></div>
+              <Link href={`/product/${p.slug}`} className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-white"><ProductImage p={p} vid={l.v as VariantId} pair={false} /></Link>
+              <div className="flex-1"><div className="flex justify-between gap-3"><div><h3 className="serif text-xl">{p.name}</h3><p className="text-sm text-ink/60">{variantLabel(v)} · {money(v.price)} each <s className="text-ink/40">{money(mrpOf(v))}</s></p></div><p className="font-semibold">{money(priceOfLine(l) * l.qty)}</p></div>
                 <div className="mt-4 flex items-center gap-5 text-sm">
                   <div className="flex items-center rounded-full border border-line bg-white"><button aria-label="Decrease" className="px-3 py-1.5" onClick={() => setQty(l.slug, l.v, l.qty - 1)}>−</button><span className="w-5 text-center">{l.qty}</span><button aria-label="Increase" className="px-3 py-1.5" onClick={() => setQty(l.slug, l.v, l.qty + 1)}>+</button></div>
                   <button className="underline underline-offset-4" onClick={() => remove(l.slug, l.v)}>Remove</button></div></div>

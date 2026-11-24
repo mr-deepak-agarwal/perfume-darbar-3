@@ -5,7 +5,7 @@ import { findProduct } from "@/lib/products";
 const known: Record<string, { stage: number; date: string; items: { slug: string; v: string }[] }> = {
   PD482913: { stage: 3, date: "28 Sep 2026", items: [{ slug: "smoked-pineapple", v: "p50" }] },
   PD471204: { stage: 2, date: "11 Sep 2026", items: [{ slug: "persian-rose", v: "p30" }, { slug: "deep-sea", v: "p50" }] },
-  PD455880: { stage: 3, date: "02 Aug 2026", items: [{ slug: "imperial-oud", v: "o12" }] },
+  PD455880: { stage: 3, date: "02 Aug 2026", items: [{ slug: "imperial-oud", v: "p50" }] },
 };
 const stages = ["Order placed", "Packed", "Shipped", "Delivered"];
 export default async function Order({ params }: { params: Promise<{ id: string }> }) {

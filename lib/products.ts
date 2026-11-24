@@ -1,22 +1,29 @@
+import { MRP_MARKUP, ATTARS_ENABLED } from "./offers";
 export type Cat = "Women" | "Men" | "Unisex";
 export type Scent = "Fresh Notes" | "Sweet" | "Oud" | "Woody" | "Spicy";
 export type VariantId = "o6" | "o12" | "p30" | "p50" | "p100";
-// One fragrance is sold as a pure oil (6 / 12 ml) and as a perfume (30 / 50 / 100 ml), each with its own price.
-export type Variant = { id: VariantId; kind: "Pure oil" | "Perfume"; size: string; price: number };
+// One fragrance is sold as an attar (6 / 12 ml, alcohol-free oil) and as a perfume (30 / 50 / 100 ml), each with its own price.
+// mrp is optional: when a variant has no mrp, mrpOf() derives one from MRP_MARKUP in lib/offers.ts.
+export type Variant = { id: VariantId; kind: "Attar" | "Perfume"; size: string; price: number; mrp?: number };
 export type Product = { image?: string; scent?: Scent; occasions: string[]; mrp: number; sold: number; slug: string; name: string; brand: string; category: Cat; family: string; conc: string; price: number; size: string; rating: number; reviews: number; tag?: string; top: string; heart: string; base: string; desc: string; c1: string; c2: string; variants: Variant[] };
 export const money = (n: number) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
 export const BRAND = "Perfume Darbar";
 export const DEFAULT_VARIANT: VariantId = "p50";
 export const VARIANT_META: { id: VariantId; kind: Variant["kind"]; size: string }[] = [
-  { id: "o6", kind: "Pure oil", size: "6 ml" }, { id: "o12", kind: "Pure oil", size: "12 ml" },
+  { id: "o6", kind: "Attar", size: "6 ml" }, { id: "o12", kind: "Attar", size: "12 ml" },
   { id: "p30", kind: "Perfume", size: "30 ml" }, { id: "p50", kind: "Perfume", size: "50 ml" }, { id: "p100", kind: "Perfume", size: "100 ml" },
 ];
 export const variantOf = (p: Product, id?: string) => p.variants.find((v) => v.id === id) ?? p.variants.find((v) => v.id === DEFAULT_VARIANT) ?? p.variants[0];
+// Struck-through "M.R.P" shown beside the selling price. Replace MRP_MARKUP with real MRPs (variant.mrp) before launch:
+// the MRP shown must match the MRP printed on the pack.
+export const mrpFor = (price: number) => Math.ceil((price * MRP_MARKUP) / 50) * 50;
+export const mrpOf = (v: Variant) => (v.mrp && v.mrp > v.price ? v.mrp : mrpFor(v.price));
+export const pctOff = (v: Variant) => Math.round((1 - v.price / mrpOf(v)) * 100);
 export const variantLabel = (v: Variant) => `${v.kind} · ${v.size}`;
 const pal: Record<Scent, [string, string]> = { Oud: ["#5b3a8a", "#1a0b2a"], Sweet: ["#e8a3b8", "#9c3a66"], "Fresh Notes": ["#7fb59a", "#26584a"], Woody: ["#b98a52", "#4a2f18"], Spicy: ["#e6b04f", "#a8431f"] };
 // [name, for, scent family, style, "top / heart / base", occasions, [6ml oil, 12ml oil, 30ml, 50ml, 100ml], tag]
 type Row = [string, Cat, Scent, string, string, string[], [number, number, number, number, number], string?];
-// Prices: "Price list effective from 1st September 2026" (Perfume Darbar, Ponda).
+// Prices: "Price list effective from 1st September 2026" (Perfume Darbar).
 const rows: Row[] = [
   ["Kaaf Amber", "Unisex", "Woody", "Oriental", "Saffron, bergamot / Amber, sandalwood / Musk, vanilla", ["Wedding", "Daily"], [150, 250, 450, 600, 1000], undefined],
   ["Oud & Roses", "Unisex", "Oud", "Oud", "Rose, saffron / Oud, damask rose / Amber, musk", ["Wedding", "Date night"], [200, 350, 500, 700, 1000], undefined],
@@ -133,16 +140,16 @@ export const products: Product[] = rows.map((r, i) => {
   return {
     scent, occasions, category, family, name, brand: BRAND, tag, top, heart, base, c1, c2,
     slug: name.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-    conc: "Pure oil and perfume", size: "50 ml", price: p50, mrp: p50,
-    variants: VARIANT_META.map((v, k) => ({ ...v, price: price[k] })),
-    desc: `${name} is a ${family.toLowerCase()} fragrance for ${category === "Unisex" ? "everyone" : category.toLowerCase()}. It opens with ${top.toLowerCase()}, settles into ${heart.toLowerCase()} and dries down to ${base.toLowerCase()}. Available as an alcohol-free pure oil and as a perfume.`,
+    conc: "Perfume", size: "50 ml", price: p50, mrp: mrpFor(p50),
+    variants: VARIANT_META.map((v, k) => ({ ...v, price: price[k] })).filter((v) => ATTARS_ENABLED || v.kind === "Perfume"),
+    desc: `${name} is a ${family.toLowerCase()} fragrance for ${category === "Unisex" ? "everyone" : category.toLowerCase()}. It opens with ${top.toLowerCase()}, settles into ${heart.toLowerCase()} and dries down to ${base.toLowerCase()}. Available in 30, 50 and 100 ml.`,
     sold: 120 + ((i * 97) % 480), rating: +(4.3 + ((i * 3) % 7) / 10).toFixed(1), reviews: 20 + ((i * 53) % 260),
   };
 });
 export const off = (p: Product) => (p.mrp > p.price ? Math.round((1 - p.price / p.mrp) * 100) : 0);
 export const fromPrice = (p: Product) => Math.min(...p.variants.map((v) => v.price));
 // Hours of wear differ by format
-export const hoursOf = (v: Variant) => (v.kind === "Pure oil" ? "10+" : "6 to 8");
+export const hoursOf = (v: Variant) => (v.kind === "Attar" ? "10+" : "6 to 8");
 
 export type Collection = { slug: string; title: string; desc: string; test: (p: Product) => boolean };
 export const collections: Collection[] = [
@@ -166,3 +173,8 @@ export const scentColors: Record<Scent, [string, string]> = { "Fresh Notes": ["#
 const rn = ["Aarav M.", "Meera K.", "Rohan S.", "Ishita P.", "Karan T.", "Sana R.", "Neha B.", "Vikram J.", "Deepak S.", "Yash G.", "Pooja L.", "Imran A."];
 const rt = ["Lasts well past 8 hours and the dry down is beautiful.", "Got compliments the first day I wore it. Packaging felt premium.", "Not too loud, works for office and evenings. Will reorder.", "Smells like the notes list says. Great value for the price.", "Opening is fresh, then it settles into something warm. Daily wear ke liye perfect.", "Gifted this to my brother and he loved it. Sealed and well packed.", "Good projection for the first two hours, then it stays close to the skin.", "I tried the 6 ml oil first and then bought the 50 ml. Good quality for the price."];
 export const reviewsFor = (p: Product) => [0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({ name: rn[(p.slug.length + i * 5) % 12], rating: [5, 5, 4, 5, 4, 5, 5, 4][i], text: rt[(p.slug.length + i * 3) % 8], date: ["12 Oct 2026", "04 Oct 2026", "28 Sep 2026", "19 Sep 2026", "11 Sep 2026", "30 Aug 2026", "21 Aug 2026", "09 Aug 2026"][i], verified: true }));
+
+// What the bottle drawing needs for a given fragrance + size.
+export const specOf = (p: Product, v: Variant) => ({ name: p.name, size: v.size, kind: v.kind, c1: p.c1, c2: p.c2 });
+// Soft background tint per scent family: [top, bottom].
+export const tintOf = (p: Product): [string, string] => { const b = p.scent ? scentBg[p.scent] : "#f1dcd6"; return ["#ffffff", b]; };

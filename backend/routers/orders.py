@@ -83,7 +83,7 @@ def create_order(order: OrderCreate):
     try:
         sb.table("order_items").insert([
             {"order_id": created["id"], "product_id": l["product"]["id"], "product_name": l["product"]["name"],
-             "variant_id": l["variant"]["id"], "variant_label": f'{l["variant"]["kind"]}, {l["variant"]["size"]}',
+             "variant_id": l["variant"]["id"], "variant_label": f'{"Attar" if l["variant"]["kind"] == "Pure oil" else l["variant"]["kind"]}, {l["variant"]["size"]}',
              "quantity": l["quantity"], "unit_price": l["variant"]["price"]}
             for l in amounts["lines"]
         ]).execute()

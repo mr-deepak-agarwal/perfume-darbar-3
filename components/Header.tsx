@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import { OFFERS } from "@/lib/offers";
-const nav = [["Women", "/shop?g=Women"], ["Men", "/shop?g=Men"], ["Unisex", "/shop?g=Unisex"], ["Oud", "/collections/oud"], ["Musk", "/collections/musk"], ["Collections", "/collections"], ["Find my scent", "/quiz"]];
+const nav = [["Women", "/shop?g=Women"], ["Men", "/shop?g=Men"], ["Unisex", "/shop?g=Unisex"], ["Oud", "/collections/oud"], ["Musk", "/collections/musk"], ["Celeb's Choice", "/celebs-choice"], ["Collections", "/collections"], ["Find my scent", "/quiz"]];
 export default function Header() {
   const { count } = useCart();
   const { ids } = useWishlist();

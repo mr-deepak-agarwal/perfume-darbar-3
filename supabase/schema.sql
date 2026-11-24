@@ -11,7 +11,7 @@ create table if not exists products (
   category text not null check (category in ('Women', 'Men', 'Unisex')),
   scent text check (scent in ('Fresh Notes', 'Sweet', 'Oud', 'Woody', 'Spicy')),
   family text not null,                                -- style, e.g. Oriental, Aquatic, Musk
-  conc text not null default 'Pure oil and perfume',
+  conc text not null default 'Attar and perfume',
   size text not null default '50 ml',                  -- default size shown on cards
   price integer not null check (price >= 0),           -- price of the default size (50 ml perfume), INR
   mrp integer not null check (mrp >= price),           -- equal to price unless you run a discount
@@ -26,7 +26,7 @@ create table if not exists products (
   image_url text,                                      -- optional full URL; default is /products/<slug>.jpg
   position integer not null default 0,                 -- display order
   -- Every size this fragrance is sold in, with its price. Edit prices here.
-  -- [{"id":"o6","kind":"Pure oil","size":"6 ml","price":150}, {"id":"o12",...}, {"id":"p30","kind":"Perfume",...}, {"id":"p50",...}, {"id":"p100",...}]
+  -- [{"id":"o6","kind":"Attar","size":"6 ml","price":150}, {"id":"o12",...}, {"id":"p30","kind":"Perfume",...}, {"id":"p50",...}, {"id":"p100",...}]
   variants jsonb not null default '[]'::jsonb,
   is_active boolean not null default true,
   created_at timestamptz not null default now()
@@ -63,7 +63,7 @@ create table if not exists order_items (
   product_id uuid not null references products(id),
   product_name text not null,                          -- snapshot, so old orders survive catalog edits
   variant_id text not null,                            -- o6 / o12 / p30 / p50 / p100
-  variant_label text not null,                         -- e.g. 'Pure oil, 12 ml'
+  variant_label text not null,                         -- e.g. 'Attar, 12 ml'
   quantity integer not null check (quantity between 1 and 20),
   unit_price integer not null
 );

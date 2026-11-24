@@ -6,6 +6,8 @@ import TrustStrip from "@/components/TrustStrip";
 import { useCart } from "@/components/CartContext";
 import { useWishlist } from "@/components/WishlistContext";
 import { PREPAID_OFF } from "@/lib/offers";
+import Price from "@/components/Price";
+import SizeSelect from "@/components/SizeSelect";
 import { Product, VariantId, DEFAULT_VARIANT, money, hoursOf, variantOf } from "@/lib/products";
 type Review = { name: string; rating: number; text: string; date: string; verified: boolean };
 const n = (s: string) => s.split(",")[0];
@@ -21,31 +23,24 @@ export default function ProductView({ p, reviews }: { p: Product; reviews: Revie
   const [pin, setPin] = useState("");
   const [eta, setEta] = useState("");
   const v = variantOf(p, vid);
-  const kinds = ["Pure oil", "Perfume"] as const;
-  const chips = [v.size, v.kind, `${hoursOf(v)} hrs lasting`, p.scent, p.category].filter(Boolean) as string[];
+    const chips = [v.size, v.kind, `${hoursOf(v)} hrs lasting`, p.scent, p.category].filter(Boolean) as string[];
   const pick = (id: VariantId) => { setVid(id); setAdded(false); };
   return (
     <>
       <nav className="mb-6 text-sm text-ink/60"><Link href="/">Home</Link> / <Link href="/shop">Shop</Link> / {p.name}</nav>
       <div className="grid gap-10 md:grid-cols-2">
-        <Gallery p={p} />
+        <Gallery p={p} vid={vid} />
         <div>
           <p className="text-sm text-ink/60">{p.family} · {p.category}</p>
           <h1 className="mt-1 text-4xl md:text-5xl">{p.name}</h1>
           <p className="mt-3 text-sm"><span className="text-amber">★★★★★</span> {p.rating} <a href="#reviews" className="text-ink/60 underline underline-offset-4">({p.reviews} Verified Reviews)</a></p>
           <p className="mt-2 text-sm font-medium text-plum">{n(p.top)} | {n(p.heart)} | {n(p.base)}</p>
-          <p className="mt-4 text-3xl">{money(v.price)} <span className="text-base text-ink/50">/ {v.size}</span></p>
-          <p className="mt-1 text-xs text-ink/50">Inclusive of all taxes</p>
+          <p className="mt-4"><Price v={v} big /></p>
+          <p className="mt-1 text-xs text-ink/50">M.R.P inclusive of all taxes</p>
           <div className="mt-5">
-            <p className="mb-2 text-sm font-semibold">Choose format and size</p>
-            {kinds.map((k) => (
-              <div key={k} className="mb-3">
-                <p className="mb-1.5 text-sm text-ink/65">{k === "Pure oil" ? "Pure oil (alcohol-free)" : "Perfume"}</p>
-                <div className="flex flex-wrap gap-2">{p.variants.filter((x) => x.kind === k).map((x) => (
-                  <button key={x.id} onClick={() => pick(x.id)} aria-pressed={vid === x.id} className={`rounded-xl border px-4 py-2 text-left text-sm ${vid === x.id ? "border-plum bg-plum text-white" : "border-line bg-white"}`}><b className="block">{x.size}</b><span className={vid === x.id ? "text-white/80" : "text-ink/60"}>{money(x.price)}</span></button>
-                ))}</div>
-              </div>
-            ))}
+            <label htmlFor="size" className="mb-2 block text-sm font-semibold">Size</label>
+            <SizeSelect p={p} value={vid} onChange={pick} className="!py-3" id="size" />
+            <p className="mt-1.5 text-xs text-ink/55">Choose 30, 50 or 100 ml. 50 ml is the standard size.</p>
           </div>
           <div className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm"><span><b>Pay online and save ₹{PREPAID_OFF}</b> <span className="text-ink/60">with UPI or card</span></span><b className="text-lg text-emerald-700">{money(Math.max(v.price - PREPAID_OFF, 0))}</b></div>
           <div className="mt-4 flex flex-wrap gap-2">{chips.map((c) => <span key={c} className="rounded-lg border border-line bg-white px-3 py-1.5 text-xs font-semibold">{c}</span>)}</div>
@@ -60,10 +55,10 @@ export default function ProductView({ p, reviews }: { p: Product; reviews: Revie
           {eta && <p className="mt-2 text-sm text-ink/70">{eta}</p>}
           <div className="mt-6 border-t border-line">
             <Acc t="Product description">{p.desc} Top notes: {p.top}. Heart notes: {p.heart}. Base notes: {p.base}. Best for {p.occasions.join(", ").toLowerCase()}.</Acc>
-            <Acc t="Pure oil or perfume?">The pure oil (6 ml and 12 ml) is alcohol-free and stays close to the skin for 10 hours or more. Apply a dab on pulse points. The perfume (30, 50 and 100 ml) is a spray that projects more and suits offices and evenings out.</Acc>
+            <Acc t="How to wear it">Spray on pulse points: wrists, neck and behind the ears. Do not rub the wrists together. The perfume projects well for 6 to 8 hours.</Acc>
             <Acc t="How to use">Spray or dab on pulse points: wrists, neck and behind the ears. Do not rub, as it crushes the top notes. Apply on moisturised skin for longer wear. Keep away from eyes, flames and heat.</Acc>
-            <Acc t="Ingredients">{v.kind === "Pure oil" ? "Perfume oil blend and fragrance compounds. Alcohol-free. The full ingredient list is printed on the pack." : "Alcohol denat., parfum (fragrance), aqua and approved colourants. The full ingredient list is printed on the pack."}</Acc>
-            <Acc t="Manufacturer details">Marketed by Perfume Darbar, Ponda, Goa, India. Country of origin: India.</Acc>
+            <Acc t="Ingredients">{v.kind === "Attar" ? "Perfume oil blend and fragrance compounds. Alcohol-free. The full ingredient list is printed on the pack." : "Alcohol denat., parfum (fragrance), aqua and approved colourants. The full ingredient list is printed on the pack."}</Acc>
+            <Acc t="Manufacturer details">Marketed by Perfume Darbar, Ponda, Goa, India (registered address). Country of origin: India.</Acc>
             <Acc t="Shipping and returns">Free shipping above ₹3,999, otherwise ₹149. Delivery in 3 to 6 working days across India. Unused, sealed bottles can be returned within 30 days. <Link href="/help/shipping-returns" className="underline">Full policy</Link></Acc>
           </div>
         </div>

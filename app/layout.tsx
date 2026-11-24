@@ -12,9 +12,9 @@ const display = Rozha_One({ subsets: ["latin"], weight: "400", variable: "--font
 const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body" });
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Perfume Darbar | Pure oils and perfumes, Ponda Goa", template: "%s" },
-  description: "Pure oils and perfumes from Ponda, Goa. 100 fragrances from ₹100.",
-  openGraph: { type: "website", siteName: "Perfume Darbar", url: SITE_URL, title: "Perfume Darbar | Pure oils and perfumes, Ponda Goa", description: "Pure oils and perfumes from Ponda, Goa. 100 fragrances from ₹100.", images: ["/og.jpg"] },
+  title: { default: "Perfume Darbar | Perfumes from India", template: "%s" },
+  description: "Perfumes, shipped across India. 100 fragrances in 30, 50 and 100 ml.",
+  openGraph: { type: "website", siteName: "Perfume Darbar", url: SITE_URL, title: "Perfume Darbar | Perfumes from India", description: "Perfumes, shipped across India. 100 fragrances in 30, 50 and 100 ml.", images: ["/og.jpg"] },
 };
 export const revalidate = 60; // re-read the catalog from Supabase at most once a minute
 

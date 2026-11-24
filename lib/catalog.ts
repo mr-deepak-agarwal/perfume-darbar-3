@@ -1,3 +1,4 @@
+import { ATTARS_ENABLED } from "./offers";
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { supabase } from "./supabaseClient";
@@ -16,7 +17,7 @@ const fromRow = (r: Row): Product => ({
   price: r.price, mrp: r.mrp, tag: r.tag ?? undefined, top: r.top ?? "", heart: r.heart ?? "", base: r.base ?? "", desc: r.description ?? "",
   occasions: r.occasions ?? [], rating: Number(r.rating), reviews: r.review_count, sold: r.sold, c1: r.c1 ?? "#5b3a8a", c2: r.c2 ?? "#1a0b2a",
   image: r.image_url ?? undefined,
-  variants: Array.isArray(r.variants) ? r.variants : [],
+  variants: Array.isArray(r.variants) ? r.variants.map((v) => ({ ...v, kind: (v.kind as string) === "Pure oil" ? "Attar" : v.kind })).filter((v) => ATTARS_ENABLED || v.kind === "Perfume") : [],
 });
 
 async function load(): Promise<Catalog> {
@@ -31,7 +32,7 @@ async function load(): Promise<Catalog> {
   return { products, source: "supabase" };
 }
 
-const cached = unstable_cache(load, ["catalog-v2"], { revalidate: 60, tags: ["catalog"] });
+const cached = unstable_cache(load, ["catalog-v4"], { revalidate: 60, tags: ["catalog"] });
 
 // Cached for 60 s so page views don't each hit Supabase; edits in Supabase show up within about a minute.
 // If Supabase is unreachable and nothing is cached yet, fall back to the built-in catalog so the shop never goes blank.

@@ -5,7 +5,7 @@
 Deploy the storefront: push to GitHub and import in Vercel. No env vars are needed for the demo.
 
 ## What is real and what is fake
-- The catalog is the 100-fragrance Perfume Darbar Ponda price list (effective 1 Sep 2026): each fragrance in pure oil
+- The catalog is the 100-fragrance Perfume Darbar price list (effective 1 Sep 2026): each fragrance as an attar
   (6 ml, 12 ml) and perfume (30, 50, 100 ml). Fragrance names on the site are Perfume Darbar's own public names.
 - Still placeholders: reviews, ratings, "sold" counts, account and order pages, free shipping (Rs 3,999), shipping fee
   (Rs 149), prepaid discount (Rs 50), COD limit (Rs 10,000), phone number, returns/FAQ wording. Check `lib/offers.ts`, `lib/content.ts`.
@@ -36,7 +36,7 @@ If a refresh fails, the last good data keeps being served.
 ### Adding a product
 Insert a row in Supabase (or add a row in `lib/products.ts` and re-run `npx tsx scripts/make-seed.mts` to regenerate `seed.sql`).
 Photo: put `public/products/<slug>.jpg` (4:5, ~1000x1250), or set `image_url` to any full URL (e.g. Supabase Storage).
-Each product row has a `variants` jsonb array: `[{id:"o6",kind:"Pure oil",size:"6 ml",price:150}, ... p100]`.
+Each product row has a `variants` jsonb array: `[{id:"o6",kind:"Attar",size:"6 ml",price:150}, ... p100]`.
 
 ## Backend API (optional)
 `backend/` is a FastAPI service for work that needs the service-role key: order creation with server-side prices.

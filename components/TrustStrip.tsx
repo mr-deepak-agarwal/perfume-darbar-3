@@ -1,7 +1,7 @@
 const ic = (d: string) => <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>;
 const items: [string, string, React.ReactNode][] = [
   ["COD available", "Pay on delivery", <span key="r" className="text-lg font-semibold">₹</span>],
-  ["Made in Goa", "Blended and bottled in Ponda", ic("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z")],
+  ["Made in India", "Blended and bottled in India", ic("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z")],
   ["Free shipping", "Above ₹3,999", ic("M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM17 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z")],
   ["Easy returns", "30 days, unused bottles", ic("M4 4v6h6M4 10a8 8 0 112 6")],
 ];
