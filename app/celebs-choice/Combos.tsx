@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Scene } from "@/components/Bottle";
+import { photoOf } from "@/components/ProductImage";
 import { useCart } from "@/components/CartContext";
 import { COMBOS } from "@/lib/combos";
-import { Product, money, variantOf, specOf, mrpOf, DEFAULT_VARIANT } from "@/lib/products";
+import { Product, money, variantOf, mrpOf, DEFAULT_VARIANT } from "@/lib/products";
 
 // "Celeb's Choice" (client comment 6): ready-made combos. Titles and picks are our own; no celebrity names or photos
 // are used. See lib/combos.ts to add or change combos.
@@ -23,7 +23,7 @@ export default function Combos({ products }: { products: Product[] }) {
           const price = rows.reduce((a, r) => a + r.v.price, 0), mrp = rows.reduce((a, r) => a + mrpOf(r.v), 0);
           return (
             <div key={c.id} className="group">
-              <div className="arch-frame"><div className="arch relative aspect-[4/5] overflow-hidden bg-white"><Scene items={rows.map((r) => specOf(r.p, r.v))} bg={["#ffffff", "#ead9cf"]} label={c.title} /></div></div>
+              <div className="arch-frame"><div className="arch relative aspect-[4/5] overflow-hidden bg-white"><div className="absolute inset-0 flex">{rows.map((r) => <img key={r.p.slug} src={photoOf(r.p.slug, r.v.id)} alt={r.p.name} loading="lazy" className="h-full min-w-0 flex-1 object-cover" />)}</div></div></div>
               <div className="mt-3 px-1 text-sm">
                 <h2 className="serif text-xl leading-tight">{c.title}</h2>
                 <p className="mt-1 text-ink/60">{c.blurb}</p>

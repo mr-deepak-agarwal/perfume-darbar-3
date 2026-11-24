@@ -1,4 +1,4 @@
 export const SITE_URL = "https://perfumedarbar.com";
-// Set to true once real bottle photos are added as public/products/<slug>.jpg (4:5). Until then the site draws the
-// clean-label bottle itself (components/Bottle.tsx). A product's image_url in Supabase always wins.
-export const USE_PRODUCT_PHOTOS = false;
+// Product photos are public/products/<slug>-<p30|p50|p100>.webp (4:5), made by scripts/make_photos.py from the client's
+// bottle photos. If one is missing, the drawn bottle (components/Bottle.tsx) is shown instead. image_url in Supabase wins.
+export const USE_PRODUCT_PHOTOS = true;

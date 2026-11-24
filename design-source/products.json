@@ -1,0 +1,702 @@
+[
+ {
+  "slug": "kaaf-amber",
+  "name": "Kaaf Amber",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "oud-and-roses",
+  "name": "Oud & Roses",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "hulwah",
+  "name": "Hulwah",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "morning-dive",
+  "name": "Morning Dive",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "evening-vanilla",
+  "name": "Evening Vanilla",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "arabian-nights",
+  "name": "Arabian Nights",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "azure-blue",
+  "name": "Azure Blue",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "golden-musk",
+  "name": "Golden Musk",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "royal-musk-special",
+  "name": "Royal Musk Special",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "musk-rose",
+  "name": "Musk Rose",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "first-rain",
+  "name": "First Rain",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "oasis-musk",
+  "name": "Oasis Musk",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "silk-touch",
+  "name": "Silk Touch",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "midnight-citrus",
+  "name": "Midnight Citrus",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "midnight-reserve",
+  "name": "Midnight Reserve",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "saffron-amber",
+  "name": "Saffron Amber",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "midnight-blossom",
+  "name": "Midnight Blossom",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "aqua-marine",
+  "name": "Aqua Marine",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "aqua-noir",
+  "name": "Aqua Noir",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "dark-silk",
+  "name": "Dark Silk",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "white-bloom",
+  "name": "White Bloom",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "cassis-rose",
+  "name": "Cassis Rose",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "amber-chestnut",
+  "name": "Amber Chestnut",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "toffee-amber",
+  "name": "Toffee Amber",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "black-musk",
+  "name": "Black Musk",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "deep-blue",
+  "name": "Deep Blue",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "blueberry-musk",
+  "name": "Blueberry Musk",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "uptown-special",
+  "name": "Uptown Special",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "tuberose-noir",
+  "name": "Tuberose Noir",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "rose-patchouli",
+  "name": "Rose Patchouli",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "aldehyde-bloom",
+  "name": "Aldehyde Bloom",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "green-tea-citrus",
+  "name": "Green Tea Citrus",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "copper-amber",
+  "name": "Copper Amber",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "sport-champion",
+  "name": "Sport Champion",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "smoked-pineapple",
+  "name": "Smoked Pineapple",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "deep-sea",
+  "name": "Deep Sea",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "leather-violet",
+  "name": "Leather Violet",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "wild-elixir",
+  "name": "Wild Elixir",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "wild-bergamot",
+  "name": "Wild Bergamot",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "sandal-forest",
+  "name": "Sandal Forest",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "golden-dirham",
+  "name": "Golden Dirham",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "soft-cream",
+  "name": "Soft Cream",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "gold-oud",
+  "name": "Gold Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "valley-amber",
+  "name": "Valley Amber",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "gold-sandal",
+  "name": "Gold Sandal",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "peony-garden",
+  "name": "Peony Garden",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "premium-cedar",
+  "name": "Premium Cedar",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "glacier",
+  "name": "Glacier",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "imperial-oud",
+  "name": "Imperial Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "dark-cedar",
+  "name": "Dark Cedar",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "jasmine",
+  "name": "Jasmine",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "lavender-vanilla",
+  "name": "Lavender Vanilla",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "honey-lavender",
+  "name": "Honey Lavender",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "pear-vanilla",
+  "name": "Pear Vanilla",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "kashmiri-oud",
+  "name": "Kashmiri Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "kasturi",
+  "name": "Kasturi",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "vanilla-royale",
+  "name": "Vanilla Royale",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "kesar-chandan",
+  "name": "Kesar Chandan",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "crisp-white",
+  "name": "Crisp White",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "spiced-dates",
+  "name": "Spiced Dates",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "coffee-dates",
+  "name": "Coffee Dates",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "amber-dates",
+  "name": "Amber Dates",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "velvet-oud",
+  "name": "Velvet Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "prince-oud",
+  "name": "Prince Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "lavender",
+  "name": "Lavender",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "lavender-oud",
+  "name": "Lavender Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "lemon",
+  "name": "Lemon",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "sunlit-swim",
+  "name": "Sunlit Swim",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "citrus-tea",
+  "name": "Citrus Tea",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "magnetic-woods",
+  "name": "Magnetic Woods",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "black-vanilla",
+  "name": "Black Vanilla",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "mixed-fruit",
+  "name": "Mixed Fruit",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "mogra",
+  "name": "Mogra",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "crystal-musk",
+  "name": "Crystal Musk",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "soft-breeze",
+  "name": "Soft Breeze",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "open-sky",
+  "name": "Open Sky",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "oud-sensation",
+  "name": "Oud Sensation",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "golden-spice",
+  "name": "Golden Spice",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "black-licorice",
+  "name": "Black Licorice",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "victory-laurel",
+  "name": "Victory Laurel",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "victory-aqua",
+  "name": "Victory Aqua",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "purple-oud",
+  "name": "Purple Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "persian-rose",
+  "name": "Persian Rose",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "splash-apple",
+  "name": "Splash Apple",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "dark-splash",
+  "name": "Dark Splash",
+  "c1": "#b98a52",
+  "c2": "#4a2f18",
+  "scent": "Woody"
+ },
+ {
+  "slug": "ice-splash",
+  "name": "Ice Splash",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "royal-sandal-oud",
+  "name": "Royal Sandal Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "field-sport",
+  "name": "Field Sport",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ },
+ {
+  "slug": "rose",
+  "name": "Rose",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "pearl-bloom",
+  "name": "Pearl Bloom",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "moonlit-rose",
+  "name": "Moonlit Rose",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "paradise-garden",
+  "name": "Paradise Garden",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "rosewood-oud",
+  "name": "Rosewood Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "tobacco-amber",
+  "name": "Tobacco Amber",
+  "c1": "#e6b04f",
+  "c2": "#a8431f",
+  "scent": "Spicy"
+ },
+ {
+  "slug": "mint-tonka",
+  "name": "Mint Tonka",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "fruit-peony",
+  "name": "Fruit Peony",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "white-musk",
+  "name": "White Musk",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "white-oud",
+  "name": "White Oud",
+  "c1": "#5b3a8a",
+  "c2": "#1a0b2a",
+  "scent": "Oud"
+ },
+ {
+  "slug": "coffee-blossom",
+  "name": "Coffee Blossom",
+  "c1": "#e8a3b8",
+  "c2": "#9c3a66",
+  "scent": "Sweet"
+ },
+ {
+  "slug": "apple-sage",
+  "name": "Apple Sage",
+  "c1": "#7fb59a",
+  "c2": "#26584a",
+  "scent": "Fresh Notes"
+ }
+]

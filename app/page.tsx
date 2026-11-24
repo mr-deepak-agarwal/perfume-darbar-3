@@ -33,7 +33,7 @@ export default async function Home() {
             <div className="mt-9 flex flex-wrap gap-3"><Link href="/shop" className="btn btn-gold">Shop all fragrances</Link><Link href="/quiz" className="btn btn-ghost-light">Find my scent</Link></div>
           </div>
           <div className="arch-frame mx-auto w-full max-w-sm md:max-w-none">
-            <div className="arch relative aspect-[4/5] overflow-hidden bg-deep"><Art list={[[by("kashmiri-oud"), "p30"], [by("imperial-oud"), "p100"], [by("persian-rose"), "p50"]]} bg={["#1f6b57", "#0a2f28"]} floor="#06201b" label="Perfume Darbar perfume bottles" /></div>
+            <div className="arch relative aspect-[4/5] overflow-hidden bg-deep"><Art list={[[by("imperial-oud"), "p50"]]} bg={["#1f6b57", "#0a2f28"]} floor="#06201b" label="Perfume Darbar perfume bottles" /></div>
           </div>
         </div>
         <div className="rule-gold" />
@@ -60,7 +60,7 @@ export default async function Home() {
       <section className={`${wrap} mt-20`}><Head t="Shop by scent family" />
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-5">{scents.map((s) => (
           <Link key={s} href={`/shop?s=${encodeURIComponent(s)}`} className="group block">
-            <div className="arch-frame transition-colors group-hover:border-amber"><div className="arch relative aspect-[3/4] overflow-hidden" style={{ background: scentBg[s] }}><div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"><Art list={top((p) => p.scent === s, 1).flatMap((p): [Product, VariantId][] => [[p, "p30"], [p, "p50"]])} bg={["#ffffff", scentBg[s]]} label={`${s} fragrances`} /></div></div></div>
+            <div className="arch-frame transition-colors group-hover:border-amber"><div className="arch relative aspect-[3/4] overflow-hidden" style={{ background: scentBg[s] }}><div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"><Art list={top((p) => p.scent === s, 1).flatMap((p): [Product, VariantId][] => [[p, "p50"]])} bg={["#ffffff", scentBg[s]]} label={`${s} fragrances`} /></div></div></div>
             <h3 className="serif mt-4 text-2xl">{s}</h3><p className="text-sm text-ink/65">{scentBlurb[s]}</p>
           </Link>))}</div></section>
 
@@ -70,12 +70,12 @@ export default async function Home() {
       {/* who it's for */}
       <section className={`${wrap} mt-24`}><Head t="Shop by who it's for" />
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-5">{who.map(([n, h, img]) => (
-          <Link key={n} href={h} className="group block"><div className="arch-frame transition-colors group-hover:border-amber"><div className="arch relative aspect-[3/4] overflow-hidden bg-deep"><div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"><Art list={top(whoPick[n], 1).flatMap((p): [Product, VariantId][] => [[p, "p30"], [p, "p50"]])} bg={tint(top(whoPick[n], 1)[0])} label={`${n} fragrances`} /></div></div></div><h3 className="serif mt-4 text-center text-2xl">{n}</h3></Link>))}</div></section>
+          <Link key={n} href={h} className="group block"><div className="arch-frame transition-colors group-hover:border-amber"><div className="arch relative aspect-[3/4] overflow-hidden bg-deep"><div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"><Art list={top(whoPick[n], 1).flatMap((p): [Product, VariantId][] => [[p, "p50"]])} bg={tint(top(whoPick[n], 1)[0])} label={`${n} fragrances`} /></div></div></div><h3 className="serif mt-4 text-center text-2xl">{n}</h3></Link>))}</div></section>
 
       {/* oud band */}
       <section className="mt-24 bg-ink text-mist">
         <div className={`${wrap} grid items-center gap-10 py-14 md:grid-cols-2 md:py-20`}>
-          <div className="relative aspect-[3/2] overflow-hidden rounded-md border border-gold/60 bg-deep md:order-1"><Art ratio="wide" list={[[by("kashmiri-oud"), "p30"], [by("imperial-oud"), "p100"], [by("royal-sandal-oud"), "p50"]]} bg={["#3b2466", "#150a26"]} floor="#0d0618" label="Oud collection" /></div>
+          <div className="relative aspect-[3/2] overflow-hidden rounded-md border border-gold/60 bg-deep md:order-1"><Art ratio="wide" max={2} list={[[by("imperial-oud"), "p50"], [by("royal-sandal-oud"), "p30"]]} bg={["#3b2466", "#150a26"]} floor="#0d0618" label="Oud collection" /></div>
           <div><h2 className="text-4xl md:text-6xl">The oud collection</h2><p className="mt-5 max-w-md text-mist/80">Deep, resinous agarwood for the evening. {col("oud").length} perfumes and oils built around oud, from Imperial Oud to Rosewood Oud.</p><Link href="/collections/oud" className="btn btn-gold mt-9">Explore oud</Link></div>
         </div>
       </section>

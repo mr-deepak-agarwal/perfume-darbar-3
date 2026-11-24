@@ -13,3 +13,11 @@ Re-run supabase/seed.sql (regenerated) so DB variants say "Attar"; the app also 
 - Removed: attar band on home, "Attars from" lines, 6 / 12 ml copy (hero, About, FAQ, footer, meta, offers bar, product page).
 - Client comment 2 ("Pure Oil" -> "Attar") now has nothing to apply to while attars are off. To bring them back: set ATTARS_ENABLED = true and re-add the copy.
 - The blog post "Attar vs eau de parfum" is still there as general reading; retitle or drop it if the client wants no attar mentions.
+
+# Update: realistic product photos
+- Replaced the drawn bottles with photo composites built from the client's three real bottle photos (design-source/b30|b50|b100.jpg).
+  scripts/photo_plates.py removes the second bottle from each photo; scripts/make_photos.py tints the liquid per scent and applies the label.
+  Output: public/products/<slug>-<p30|p50|p100>.webp (300 files, 18 MB). Used on cards, product pages, cart, banners, tiles, collections, About, blog covers, combos, social image.
+- To refresh after new photos or a label change: python3 scripts/photo_plates.py && python3 scripts/make_photos.py (needs opencv-python-headless, numpy, pillow).
+- Label font is Lora (stand-in); change DISPLAY in make_photos.py to the brand serif.
+- components/Bottle.tsx (drawn bottle) is kept only as a fallback if a photo is missing.

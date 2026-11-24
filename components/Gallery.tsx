@@ -1,20 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductImage from "./ProductImage";
 import { Product, VariantId, DEFAULT_VARIANT } from "@/lib/products";
 import { inspiredOf } from "@/lib/inspired";
-import { USE_PRODUCT_PHOTOS } from "@/lib/site";
 
-// Views: the bottle in the chosen size, the "original vs inspired" pair when one exists, and any real photos
-// (public/products/<slug>-2.jpg ... when USE_PRODUCT_PHOTOS is on).
+// Views: the bottle photo in the chosen size and the "original vs inspired" pair when one exists.
 export default function Gallery({ p, vid = DEFAULT_VARIANT }: { p: Product; vid?: VariantId }) {
-  const [extra, setExtra] = useState<string[]>([]);
+  const extra: string[] = [];
   const [i, setI] = useState(0);
   const hasPair = !!inspiredOf(p.slug);
-  useEffect(() => {
-    if (!USE_PRODUCT_PHOTOS) return;
-    [2, 3, 4].forEach((n) => { const src = `/products/${p.slug}-${n}.jpg`; const im = new Image(); im.onload = () => setExtra((e) => (e.includes(src) ? e : [...e, src].sort())); im.src = src; });
-  }, [p.slug]);
   // view 0 = bottle alone (follows the size dropdown); view 1 = original vs inspired (if any); then real photos
   const views: React.ReactNode[] = [<ProductImage key="a" p={p} vid={vid} pair={false} />];
   if (hasPair) views.push(<ProductImage key="b" p={p} vid={vid} pair />);
